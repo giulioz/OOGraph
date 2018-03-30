@@ -4,10 +4,11 @@ import com.v2.surfaces.Surface;
 
 public class Graphics2D<T> {
     private Surface<T> surface;
-    private Shader<T, ?> shader;
+    private Shader<T,?> shader;
 
-    public Graphics2D(Surface<T> surface) {
+    public Graphics2D(Surface<T> surface, Shader<T,?> shader) {
         this.surface = surface;
+        this.shader = shader;
     }
 
     public Surface<T> getSurface() {
@@ -26,25 +27,35 @@ public class Graphics2D<T> {
         surface.fill(clearColor);
     }
 
-    public void plotPixel(Point p, T color) {
-        surface.setXY(p.getX(), p.getY(), color);
+    public void fill() {
+        int i = 0;
+        for (int y = 0; y < surface.getHeight(); y++) {
+            for (int x = 0; x < surface.getWidth(); x++) {
+                surface.setLinear(i, shader.getColor((float)x / surface.getWidth(), (float)y / surface.getHeight()));
+                i++;
+            }
+        }
     }
 
-    public void plotPixel(int x, int y, T color) {
-        surface.setXY(x, y, color);
+    public void plotPixel(int x, int y) {
+        surface.setXY(x, y, shader.getColor(0, 0));
     }
 
-    public void drawLine(Point a, Point b, T color) {
-        drawLine(a.getX(), a.getY(), b.getX(), b.getY(), color);
+    public void plotPixel(Point p) {
+        plotPixel(p.getX(), p.getY());
     }
 
-    public void drawLine(int ax, int ay, int bx, int by, T color) {
+    public void drawLine(Point a, Point b) {
+        drawLine(a.getX(), a.getY(), b.getX(), b.getY());
+    }
+
+    public void drawLine(int ax, int ay, int bx, int by) {
         int dx =  Math.abs(bx - ax), sx = ax < bx ? 1 : -1;
         int dy = -Math.abs(by - ay), sy = ay < by ? 1 : -1;
         int err = dx + dy; /* error value e_xy */
 
-        for (;;) {  /* loop */
-            plotPixel(ax, ay, color);
+        for (;;) {
+            plotPixel(ax, ay);
             if (ax == bx && ay == by) break;
             float e2 = 2 * err; /* error value e_xy */
             if (e2 >= dy) { err += dy; ax += sx; } /* e_xy+e_x > 0 */
@@ -52,66 +63,42 @@ public class Graphics2D<T> {
         }
     }
 
-    public void drawRectangle(Rectangle rect, T color) {
-        drawLine(rect.getUpperLeft(), rect.getUpperRight(), color);
-        drawLine(rect.getUpperRight(), rect.getLowerRight(), color);
-        drawLine(rect.getLowerRight(), rect.getLowerLeft(), color);
-        drawLine(rect.getLowerLeft(), rect.getUpperLeft(), color);
+    public void drawRectangle(Rectangle rect) {
+        drawLine(rect.getUpperLeft(), rect.getUpperRight());
+        drawLine(rect.getUpperRight(), rect.getLowerRight());
+        drawLine(rect.getLowerRight(), rect.getLowerLeft());
+        drawLine(rect.getLowerLeft(), rect.getUpperLeft());
     }
 
-    public void drawRectangle(int x, int y, int w, int h, T color) {
-        drawRectangle(new Rectangle(x, y, w, h), color);
+    public void drawRectangle(int x, int y, int w, int h) {
+        drawRectangle(new Rectangle(x, y, w, h));
     }
 
-    public void fillRectangle(Rectangle rect, T color) {
-        fillRectangle(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), color);
-    }
-
-    public void fillRectangle(int x, int y, int w, int h, T color) {
-        for (int py = y; py < y+h; py++) {
-            for (int px = x; px < x+w; px++) {
-                plotPixel(px, py, color);
-            }
-        }
+    public void fillRectangle(Rectangle rect) {
+        fillRectangle(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
     }
 
     public void fillRectangle(int x, int y, int w, int h) {
         if (shader == null) throw new RuntimeException();
         for (int py = y; py < y+h; py++) {
             for (int px = x; px < x+w; px++) {
-                surface.setXY(px, py, shader.getColor(new Point(px-x, py-y)));
+                surface.setXY(px, py, shader.getColor((float)(px-x)/w, (float)(py-y)/h));
             }
         }
     }
 
-    /*public void drawFace<TVertexFormat>(IFace<TVertexFormat, T> face) where TVertexFormat : IVertex2D{
-        var bboxmin = new PointI(_surface.Size.Width - 1, _surface.Size.Height - 1);
-        var bboxmax = new PointI(0, 0);
-        var clamp = new PointI(_surface.Size.Width - 1, _surface.Size.Height - 1);
-
-        bboxmin.X = MathHelper.Max(0, MathHelper.Min(bboxmin.X, face.A.Position.X));
-        bboxmax.X = MathHelper.Min(clamp.X, MathHelper.Max(bboxmax.X, face.A.Position.X));
-        bboxmin.Y = MathHelper.Max(0, MathHelper.Min(bboxmin.Y, face.A.Position.Y));
-        bboxmax.Y = MathHelper.Min(clamp.Y, MathHelper.Max(bboxmax.Y, face.A.Position.Y));
-
-        bboxmin.X = MathHelper.Max(0, MathHelper.Min(bboxmin.X, face.B.Position.X));
-        bboxmax.X = MathHelper.Min(clamp.X, MathHelper.Max(bboxmax.X, face.B.Position.X));
-        bboxmin.Y = MathHelper.Max(0, MathHelper.Min(bboxmin.Y, face.B.Position.Y));
-        bboxmax.Y = MathHelper.Min(clamp.Y, MathHelper.Max(bboxmax.Y, face.B.Position.Y));
-
-        bboxmin.X = MathHelper.Max(0, MathHelper.Min(bboxmin.X, face.C.Position.X));
-        bboxmax.X = MathHelper.Min(clamp.X, MathHelper.Max(bboxmax.X, face.C.Position.X));
-        bboxmin.Y = MathHelper.Max(0, MathHelper.Min(bboxmin.Y, face.C.Position.Y));
-        bboxmax.Y = MathHelper.Min(clamp.Y, MathHelper.Max(bboxmax.Y, face.C.Position.Y));
-
-        var p = new PointI(0, 0);
-        for (p.Y=bboxmin.Y; p.Y<=bboxmax.Y; p.Y++) {
-            for (p.X=bboxmin.X; p.X<=bboxmax.X; p.X++) {
-                var bcScreen = PointI.Barycentric(p, face.A.Position, face.B.Position, face.C.Position);
-                if (!(bcScreen.X < 0 || bcScreen.Y < 0 || bcScreen.Z < 0)) {
-                    plotPixel(p, face.Shade(bcScreen));
+    public void fillTriangle(Triangle<?> triangle) {
+        Rectangle boundingBox = triangle.getBoundingBox(surface.getRect());
+        int startX = boundingBox.getX(), endX = startX + boundingBox.getWidth();
+        int startY = boundingBox.getY(), endY = startY + boundingBox.getHeight();
+        Point p = new Point(0, 0);
+        for (p.y = startY; p.y <= endY; p.y++) {
+            for (p.x = startX; p.x <= endX; p.x++) {
+                float[] bcScreen = Point.barycentric(p, triangle.getA().getPosition(), triangle.getB().getPosition(), triangle.getC().getPosition());
+                if (!(bcScreen[0] < 0 || bcScreen[1] < 0 || bcScreen[2] < 0)) {
+                    plotPixel(p);
                 }
             }
         }
-    }*/
+    }
 }

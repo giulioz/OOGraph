@@ -4,5 +4,5 @@ public interface Shader<T,U> {
     U getUniforms();
     void setUniforms(U data);
 
-    T getColor(Point coord);
+    T getColor(float x, float y);
 }

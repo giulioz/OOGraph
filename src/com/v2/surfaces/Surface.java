@@ -15,6 +15,10 @@ public interface Surface<T> {
     int getHeight();
     int getLength();
 
+    default Rectangle getRect() {
+        return new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);
+    }
+
     default void fill(T val) {
         for (int i = 0; i < this.getLength(); i++) {
             setLinear(i, val);

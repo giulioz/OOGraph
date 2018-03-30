@@ -1,13 +1,11 @@
 package com.v2.surfaces.shaders;
 
-import com.v2.Point;
 import com.v2.Shader;
-import com.v2.surfaces.colors.ColorRGB24;
 
-public class ColorShader<T> implements Shader<T, T> {
+public class SolidColorShader<T> implements Shader<T, T> {
     private T color;
 
-    public ColorShader(T color) {
+    public SolidColorShader(T color) {
         this.color = color;
     }
 
@@ -22,7 +20,7 @@ public class ColorShader<T> implements Shader<T, T> {
     }
 
     @Override
-    public T getColor(Point coord) {
+    public T getColor(float x, float y) {
         return color;
     }
 }
