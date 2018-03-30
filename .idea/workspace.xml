@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="41ea87f3-dacc-4424-bfb6-6c2cd26b885f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/v2/MathHelper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/v2/Triangle.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/v2/Vertex.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/src/com/v2/.gitignore" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/v2/surfaces/shaders/ColorShader.java" afterPath="$PROJECT_DIR$/src/com/v2/surfaces/shaders/SolidColorShader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/po2018/Main.java" afterPath="$PROJECT_DIR$/src/com/po2018/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/v2/Graphics2D.java" afterPath="$PROJECT_DIR$/src/com/v2/Graphics2D.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/v2/Point.java" afterPath="$PROJECT_DIR$/src/com/v2/Point.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/v2/Shader.java" afterPath="$PROJECT_DIR$/src/com/v2/Shader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/v2/surfaces/Surface.java" afterPath="$PROJECT_DIR$/src/com/v2/surfaces/Surface.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/com/v2/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -367,6 +358,7 @@
       <recent name="com.gzgr" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/com/v2" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -439,12 +431,12 @@
       <workItem from="1520854798529" duration="5328000" />
       <workItem from="1521029737285" duration="67092000" />
       <workItem from="1522230649840" duration="9275000" />
-      <workItem from="1522338479811" duration="18006000" />
+      <workItem from="1522338479811" duration="18059000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99701000" />
+    <option name="totallyTimeSpent" value="99754000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-255" y="-1080" width="1920" height="1080" extended-state="0" />
@@ -672,7 +664,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/v2/.gitignore">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
           <caret line="46" column="17" lean-forward="false" selection-start-line="46" selection-start-column="17" selection-end-line="46" selection-end-column="17" />
