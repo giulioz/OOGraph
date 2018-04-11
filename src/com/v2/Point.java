@@ -1,19 +1,11 @@
 package com.v2;
 
 public class Point {
-    protected int x, y;
+    public int x, y;
 
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public static float[] barycentric(Point P, Point a, Point b, Point c) {

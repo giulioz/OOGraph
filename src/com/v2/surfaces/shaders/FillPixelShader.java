@@ -1,11 +1,9 @@
 package com.v2.surfaces.shaders;
 
-import com.v2.Shader;
-
-public class SolidColorShader<T> implements Shader<T, T> {
+public class FillPixelShader<T> implements PixelShader<T, T> {
     private T color;
 
-    public SolidColorShader(T color) {
+    public FillPixelShader(T color) {
         this.color = color;
     }
 
@@ -20,7 +18,7 @@ public class SolidColorShader<T> implements Shader<T, T> {
     }
 
     @Override
-    public T getColor(float x, float y) {
+    public T getColor(int x, int y) {
         return color;
     }
 }

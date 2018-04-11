@@ -1,6 +1,8 @@
-package com.v2;
+package com.v2.primitives;
 
-public class Vertex {
+import com.v2.Point;
+
+public abstract class Vertex {
     private Point position;
 
     public Vertex(Point position) {

@@ -42,8 +42,8 @@ public interface Surface<T> {
     }
 
     default void blit(Surface<T> source, Point destinationPos, Point sourcePos) {
-        blit(source, new Rectangle(destinationPos.getX(), destinationPos.getY(), getWidth(), getHeight()),
-                new Rectangle(sourcePos.getX(), sourcePos.getY(), source.getWidth(),source.getHeight()));
+        blit(source, new Rectangle(destinationPos.x, destinationPos.y, getWidth(), getHeight()),
+                new Rectangle(sourcePos.x, sourcePos.y, source.getWidth(),source.getHeight()));
     }
 
     default void blit(Surface<T> source, Rectangle destinationRect) {

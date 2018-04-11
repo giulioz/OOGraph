@@ -50,7 +50,7 @@ public class Rectangle {
     }
 
     public boolean contains(Point pt) {
-        return contains(pt.getX(), pt.getY());
+        return contains(pt.x, pt.y);
     }
 
     public boolean contains(Rectangle rect) {
