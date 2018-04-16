@@ -1,5 +1,7 @@
 package com.v2;
 
+import com.v2.vectormath.Vector;
+
 public class Point {
     public int x, y;
 
@@ -8,19 +10,19 @@ public class Point {
         this.y = y;
     }
 
-    public static float[] barycentric(Point P, Point a, Point b, Point c) {
+    public static Vector barycentric(Point P, Point a, Point b, Point c) {
         float[] _a = new float[]{c.x - a.x, b.x - a.x, a.x - P.x};
         float[] _b = new float[]{c.y - a.y, b.y - a.y, a.y - P.y};
         float vz = _a[0] * _b[1] - _a[1] * _b[0];
         if (Math.abs(vz) < 1) { // triangle is degenerate
-            return new float[]{-1, 1, 1};
+            return new Vector(-1, 1, 1);
         }
         float vx = _a[1] * _b[2] - _a[2] * _b[1];
         float vy = _a[2] * _b[0] - _a[0] * _b[2];
         float x = 1.0f - (vx + vy) / vz;
         float y = vy / vz;
         float z = vx / vz;
-        return new float[]{x, y, z};
+        return new Vector(x, y, z);
     }
 
     public static Point negate(Point b) {

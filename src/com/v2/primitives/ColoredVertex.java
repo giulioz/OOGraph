@@ -1,22 +1,28 @@
 package com.v2.primitives;
 
-import com.v2.Point;
-import com.v2.surfaces.colors.ColorRGB24;
+import com.v2.vectormath.Vector;
 
 public class ColoredVertex extends Vertex {
-    private ColorRGB24 color;
+    protected Vector color;
+    public Vector getColorVector() { return color; }
 
-    public ColorRGB24 getColor() {
-        return color;
-    }
-
-    public ColoredVertex(Point position, ColorRGB24 color) {
+    public ColoredVertex(Vector position, Vector color) {
         super(position);
         this.color = color;
     }
 
-    public ColoredVertex(int x, int y, ColorRGB24 color) {
+    public ColoredVertex(float x, float y, Vector color) {
         super(x, y);
         this.color = color;
+    }
+
+    public ColoredVertex(Vector position, float r, float g, float b) {
+        super(position);
+        this.color = new Vector(r, g, b);
+    }
+
+    public ColoredVertex(float x, float y, float r, float g, float b) {
+        super(x, y);
+        this.color = new Vector(r, g, b);
     }
 }

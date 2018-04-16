@@ -3,42 +3,32 @@ package com.v2.surfaces;
 import com.v2.Point;
 import com.v2.Rectangle;
 import com.v2.primitives.Vertex;
-import com.v2.surfaces.shaders.PixelShader;
+import com.v2.surfaces.shaders.pixel.PixelShader;
 import com.v2.primitives.Triangle;
-import com.v2.surfaces.shaders.VertexShader;
+import com.v2.surfaces.shaders.vertex.VertexShader;
+import com.v2.vectormath.Vector;
 
-public class Graphics2D<T> {
-    private Surface<T> surface;
-    private PixelShader<T,?> pixelShader;
-    private VertexShader<?,?> vertexShader;
+public class Graphics2D<Tcolor,Tvertex extends Vertex> {
+    private Surface<Tcolor> surface;
+    private PixelShader<Tcolor,?,Tvertex> pixelShader;
 
-    public Graphics2D(Surface<T> surface, PixelShader<T,?> pixelShader, VertexShader<?,?> vertexShader) {
+    public Graphics2D(Surface<Tcolor> surface, PixelShader<Tcolor,?,Tvertex> pixelShader) {
         this.surface = surface;
         this.pixelShader = pixelShader;
-        this.vertexShader = vertexShader;
     }
 
-    public Surface<T> getSurface() {
+    public Surface<Tcolor> getSurface() {
         return surface;
     }
 
-    public PixelShader<T, ?> getPixelShader() {
+    public PixelShader<Tcolor,?,Tvertex> getPixelShader() {
         return pixelShader;
     }
-
-    public void setPixelShader(PixelShader<T, ?> pixelShader) {
+    public void setPixelShader(PixelShader<Tcolor,?,Tvertex> pixelShader) {
         this.pixelShader = pixelShader;
     }
 
-    public VertexShader<?, ?> getVertexShader() {
-        return vertexShader;
-    }
-
-    public void setVertexShader(VertexShader<?, ?> vertexShader) {
-        this.vertexShader = vertexShader;
-    }
-
-    public void clear(T clearColor) {
+    public void clear(Tcolor clearColor) {
         surface.fill(clearColor);
     }
 
@@ -46,7 +36,7 @@ public class Graphics2D<T> {
         int i = 0;
         for (int y = 0; y < surface.getHeight(); y++) {
             for (int x = 0; x < surface.getWidth(); x++) {
-                surface.setLinear(i, pixelShader.getColor(x, y));
+                surface.setLinear(i, pixelShader.getColor(x, y, null, null, null, null));
                 i++;
             }
         }
@@ -55,15 +45,12 @@ public class Graphics2D<T> {
     public void plotPixel(int x, int y) {
         plotPixel(x, y, 0, 0);
     }
-
     public void plotPixel(Point p) {
         plotPixel(p.x, p.y);
     }
-
     public void plotPixel(int x, int y, int sx, int sy) {
-        surface.setXY(x, y, pixelShader.getColor(sx, sy));
+        surface.setXY(x, y, pixelShader.getColor(sx, sy, null, null, null, null));
     }
-
     public void plotPixel(Point p, int sx, int sy) {
         plotPixel(p.x, p.y, sx, sy);
     }
@@ -104,21 +91,24 @@ public class Graphics2D<T> {
     public void fillRectangle(int x, int y, int w, int h) {
         for (int py = y; py < y+h; py++) {
             for (int px = x; px < x+w; px++) {
-                surface.setXY(px, py, pixelShader.getColor(px, py));
+                surface.setXY(px, py, pixelShader.getColor(px, py, null, null, null, null));
             }
         }
     }
 
-    public <V extends Vertex> void fillTriangle(Triangle<V> triangle) {
-        Rectangle boundingBox = triangle.getBoundingBox(surface.getRect());
+    public <Tin extends Vertex> void fillTriangle(Triangle<Tin> triangle, VertexShader<Tin, Tvertex, ?> vertexShader) {
+        Triangle<Tvertex> pT = new Triangle<>(vertexShader.getVertex(triangle.getA()),
+                vertexShader.getVertex(triangle.getB()),
+                vertexShader.getVertex(triangle.getC()));
+        Rectangle boundingBox = pT.getBoundingBox(surface.getRect());
         int startX = boundingBox.getX(), endX = startX + boundingBox.getWidth();
         int startY = boundingBox.getY(), endY = startY + boundingBox.getHeight();
         Point p = new Point(0, 0);
         for (p.y = startY; p.y <= endY; p.y++) {
             for (p.x = startX; p.x <= endX; p.x++) {
-                float[] bcScreen = Point.barycentric(p, triangle.getA().getPosition(), triangle.getB().getPosition(), triangle.getC().getPosition());
-                if (!(bcScreen[0] < 0 || bcScreen[1] < 0 || bcScreen[2] < 0)) {
-                    plotPixel(p, p.x, p.y);
+                Vector bcScreen = Point.barycentric(p, pT.getA().getPoint(), pT.getB().getPoint(), pT.getC().getPoint());
+                if (!(bcScreen.getComponent(0) < 0 || bcScreen.getComponent(1) < 0 || bcScreen.getComponent(2) < 0)) {
+                    surface.setXY(p.x, p.y, pixelShader.getColor(p.x, p.y, pT.getA(), pT.getB(), pT.getC(), bcScreen));
                 }
             }
         }

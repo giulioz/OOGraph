@@ -4,6 +4,14 @@ public class Vector {
     private int dimensions;
     private float[] vect;
 
+    public Vector(Vector copy) {
+        this.dimensions = copy.dimensions;
+        this.vect = new float[copy.dimensions];
+        for (int i = 0; i < copy.dimensions; i++) {
+            this.vect[i] = copy.vect[i];
+        }
+    }
+
     public Vector(int dimensions, float[] vect) {
         this.dimensions = dimensions;
         this.vect = vect;
@@ -41,7 +49,7 @@ public class Vector {
 
     public int getDimensions() { return dimensions; }
     public float getComponent(int i) { return vect[i]; }
-    public void setComponent(int i, float value) { vect[i] = value; }
+    private void setComponent(int i, float value) { vect[i] = value; }
 
     public float dot(Vector b) {
         float sum = 0;
@@ -52,14 +60,16 @@ public class Vector {
     }
 
     public Vector min(Vector b) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
             if (getComponent(i) < (this.getComponent(i)))
-                this.setComponent(i, getComponent(i));
+                out.setComponent(i, getComponent(i));
         }
-        return this;
+        return out;
     }
 
     public Vector max(Vector b) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
             if (getComponent(i) > (this.getComponent(i)))
                 this.setComponent(i, getComponent(i));
@@ -95,66 +105,75 @@ public class Vector {
     }
 
     public Vector sum(float scalar) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) + scalar);
+            out.setComponent(i, getComponent(i) + scalar);
         }
-        return this;
+        return out;
     }
 
     public Vector sum(Vector vector) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) + vector.getComponent(i));
+            out.setComponent(i, getComponent(i) + vector.getComponent(i));
         }
-        return this;
+        return out;
     }
 
     public Vector subtract(float scalar) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) - scalar);
+            out.setComponent(i, getComponent(i) - scalar);
         }
-        return this;
+        return out;
     }
 
     public Vector subtract(Vector vector) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) - vector.getComponent(i));
+            out.setComponent(i, getComponent(i) - vector.getComponent(i));
         }
-        return this;
+        return out;
     }
 
     public Vector negate() {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, -getComponent(i));
+            out.setComponent(i, -getComponent(i));
         }
-        return this;
+        return out;
     }
 
     public Vector multiply(float scalar) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) * scalar);
+            out.setComponent(i, getComponent(i) * scalar);
         }
-        return this;
+        return out;
     }
 
     public Vector multiply(Vector vector) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) * vector.getComponent(i));
+            out.setComponent(i, getComponent(i) * vector.getComponent(i));
         }
-        return this;
+        return out;
     }
 
     public Vector divide(float scalar) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) / scalar);
+            out.setComponent(i, getComponent(i) / scalar);
         }
-        return this;
+        return out;
     }
 
     public Vector divide(Vector vector) {
+        Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            setComponent(i, getComponent(i) / vector.getComponent(i));
+            out.setComponent(i, getComponent(i) / vector.getComponent(i));
         }
-        return this;
+        return out;
     }
 
     public boolean equals(Vector vector) {

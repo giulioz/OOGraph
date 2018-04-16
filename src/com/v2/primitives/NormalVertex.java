@@ -1,6 +1,5 @@
 package com.v2.primitives;
 
-import com.v2.Point;
 import com.v2.vectormath.Vector;
 
 public class NormalVertex extends Vertex {
@@ -10,12 +9,12 @@ public class NormalVertex extends Vertex {
         return normal;
     }
 
-    public NormalVertex(Point position, Vector normal) {
+    public NormalVertex(Vector position, Vector normal) {
         super(position);
         this.normal = normal;
     }
 
-    public NormalVertex(int x, int y, Vector normal) {
+    public NormalVertex(float x, float y, Vector normal) {
         super(x, y);
         this.normal = normal;
     }

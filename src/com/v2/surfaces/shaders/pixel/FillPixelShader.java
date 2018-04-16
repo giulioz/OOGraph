@@ -1,6 +1,9 @@
-package com.v2.surfaces.shaders;
+package com.v2.surfaces.shaders.pixel;
 
-public class FillPixelShader<T> implements PixelShader<T, T> {
+import com.v2.primitives.Vertex;
+import com.v2.vectormath.Vector;
+
+public class FillPixelShader<T, V extends Vertex> implements PixelShader<T, T, V> {
     private T color;
 
     public FillPixelShader(T color) {
@@ -18,7 +21,7 @@ public class FillPixelShader<T> implements PixelShader<T, T> {
     }
 
     @Override
-    public T getColor(int x, int y) {
+    public T getColor(float x, float y, V va, V vb, V vc, Vector barycentric) {
         return color;
     }
 }

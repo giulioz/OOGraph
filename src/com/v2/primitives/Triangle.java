@@ -2,7 +2,7 @@ package com.v2.primitives;
 
 import com.v2.MathHelper;
 import com.v2.Rectangle;
-import com.v2.surfaces.shaders.VertexShader;
+import com.v2.vectormath.Vector;
 
 public class Triangle<T extends Vertex> {
     private T a, b, c;
@@ -31,29 +31,21 @@ public class Triangle<T extends Vertex> {
         int bboxminy = clamp.getHeight();
         int bboxmaxy = 0;
 
-        bboxminx = MathHelper.max(0, MathHelper.min(bboxminx, a.getPosition().x));
-        bboxmaxx = MathHelper.min(clamp.getWidth(), MathHelper.max(bboxmaxx, a.getPosition().x));
-        bboxminy = MathHelper.max(0, MathHelper.min(bboxminy, a.getPosition().y));
-        bboxmaxy = MathHelper.min(clamp.getHeight(), MathHelper.max(bboxmaxy, a.getPosition().y));
+        bboxminx = MathHelper.max(0, MathHelper.min(bboxminx, a.getPoint().x));
+        bboxmaxx = MathHelper.min(clamp.getWidth(), MathHelper.max(bboxmaxx, a.getPoint().x));
+        bboxminy = MathHelper.max(0, MathHelper.min(bboxminy, a.getPoint().y));
+        bboxmaxy = MathHelper.min(clamp.getHeight(), MathHelper.max(bboxmaxy, a.getPoint().y));
 
-        bboxminx = MathHelper.max(0, MathHelper.min(bboxminx, b.getPosition().x));
-        bboxmaxx = MathHelper.min(clamp.getWidth(), MathHelper.max(bboxmaxx, b.getPosition().x));
-        bboxminy = MathHelper.max(0, MathHelper.min(bboxminy, b.getPosition().y));
-        bboxmaxy = MathHelper.min(clamp.getHeight(), MathHelper.max(bboxmaxy, b.getPosition().y));
+        bboxminx = MathHelper.max(0, MathHelper.min(bboxminx, b.getPoint().x));
+        bboxmaxx = MathHelper.min(clamp.getWidth(), MathHelper.max(bboxmaxx, b.getPoint().x));
+        bboxminy = MathHelper.max(0, MathHelper.min(bboxminy, b.getPoint().y));
+        bboxmaxy = MathHelper.min(clamp.getHeight(), MathHelper.max(bboxmaxy, b.getPoint().y));
 
-        bboxminx = MathHelper.max(0, MathHelper.min(bboxminx, c.getPosition().x));
-        bboxmaxx = MathHelper.min(clamp.getWidth(), MathHelper.max(bboxmaxx, c.getPosition().x));
-        bboxminy = MathHelper.max(0, MathHelper.min(bboxminy, c.getPosition().y));
-        bboxmaxy = MathHelper.min(clamp.getHeight(), MathHelper.max(bboxmaxy, c.getPosition().y));
+        bboxminx = MathHelper.max(0, MathHelper.min(bboxminx, c.getPoint().x));
+        bboxmaxx = MathHelper.min(clamp.getWidth(), MathHelper.max(bboxmaxx, c.getPoint().x));
+        bboxminy = MathHelper.max(0, MathHelper.min(bboxminy, c.getPoint().y));
+        bboxmaxy = MathHelper.min(clamp.getHeight(), MathHelper.max(bboxmaxy, c.getPoint().y));
 
         return new Rectangle(bboxminx, bboxminy, bboxmaxx - bboxminx, bboxmaxy - bboxminy);
-    }
-
-    public <U> Triangle<T> transformShader(VertexShader<T, U> vertexShader) {
-        return new Triangle<>(
-                vertexShader.getVertex(this.a),
-                vertexShader.getVertex(this.b),
-                vertexShader.getVertex(this.c)
-        );
     }
 }
