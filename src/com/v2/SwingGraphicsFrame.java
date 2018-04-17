@@ -48,9 +48,9 @@ public class SwingGraphicsFrame extends JFrame implements GraphicsFrame<ColorRGB
         intBuf.get(array);
 //        bufferedImage.setRGB(
 //                0, 0,
-//                frameBuffer.getWidth(), frameBuffer.getHeight(),
+//                frameBuffer.getRows(), frameBuffer.getCols(),
 //                array, 0, frameBuffer.getStrideLength());
-        bufferedImage.getRaster().setPixels(0, 0, getWidth(), getHeight(), array);*/
+        bufferedImage.getRaster().setPixels(0, 0, getRows(), getCols(), array);*/
         byte[] convertedData = frameBuffer.getSurfaceData();
         int j = 0;
         for (int y = 0; y < frameBuffer.getHeight(); y++) {

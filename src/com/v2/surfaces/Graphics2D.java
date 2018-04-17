@@ -10,9 +10,9 @@ import com.v2.vectormath.Vector;
 
 public class Graphics2D<Tcolor,Tvertex extends Vertex> {
     private Surface<Tcolor> surface;
-    private PixelShader<Tcolor,?,Tvertex> pixelShader;
+    private PixelShader<Tcolor,Tvertex> pixelShader;
 
-    public Graphics2D(Surface<Tcolor> surface, PixelShader<Tcolor,?,Tvertex> pixelShader) {
+    public Graphics2D(Surface<Tcolor> surface, PixelShader<Tcolor,Tvertex> pixelShader) {
         this.surface = surface;
         this.pixelShader = pixelShader;
     }
@@ -21,10 +21,10 @@ public class Graphics2D<Tcolor,Tvertex extends Vertex> {
         return surface;
     }
 
-    public PixelShader<Tcolor,?,Tvertex> getPixelShader() {
+    public PixelShader<Tcolor,Tvertex> getPixelShader() {
         return pixelShader;
     }
-    public void setPixelShader(PixelShader<Tcolor,?,Tvertex> pixelShader) {
+    public void setPixelShader(PixelShader<Tcolor,Tvertex> pixelShader) {
         this.pixelShader = pixelShader;
     }
 
@@ -96,7 +96,7 @@ public class Graphics2D<Tcolor,Tvertex extends Vertex> {
         }
     }
 
-    public <Tin extends Vertex> void fillTriangle(Triangle<Tin> triangle, VertexShader<Tin, Tvertex, ?> vertexShader) {
+    public <Tin extends Vertex> void fillTriangle(Triangle<Tin> triangle, VertexShader<Tin, Tvertex> vertexShader) {
         Triangle<Tvertex> pT = new Triangle<>(vertexShader.getVertex(triangle.getA()),
                 vertexShader.getVertex(triangle.getB()),
                 vertexShader.getVertex(triangle.getC()));
@@ -107,7 +107,7 @@ public class Graphics2D<Tcolor,Tvertex extends Vertex> {
         for (p.y = startY; p.y <= endY; p.y++) {
             for (p.x = startX; p.x <= endX; p.x++) {
                 Vector bcScreen = Point.barycentric(p, pT.getA().getPoint(), pT.getB().getPoint(), pT.getC().getPoint());
-                if (!(bcScreen.getComponent(0) < 0 || bcScreen.getComponent(1) < 0 || bcScreen.getComponent(2) < 0)) {
+                if (!(bcScreen.get(0) < 0 || bcScreen.get(1) < 0 || bcScreen.get(2) < 0)) {
                     surface.setXY(p.x, p.y, pixelShader.getColor(p.x, p.y, pT.getA(), pT.getB(), pT.getC(), bcScreen));
                 }
             }

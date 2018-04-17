@@ -12,6 +12,11 @@ public class Vector {
         }
     }
 
+    public Vector(int dimensions) {
+        this.dimensions = dimensions;
+        this.vect = new float[dimensions];
+    }
+
     public Vector(int dimensions, float[] vect) {
         this.dimensions = dimensions;
         this.vect = vect;
@@ -48,22 +53,30 @@ public class Vector {
     }
 
     public int getDimensions() { return dimensions; }
-    public float getComponent(int i) { return vect[i]; }
-    private void setComponent(int i, float value) { vect[i] = value; }
+    public float get(int i) { return vect[i]; }
+    private void set(int i, float value) { vect[i] = value; }
 
     public float dot(Vector b) {
         float sum = 0;
         for (int i = 0; i < getDimensions(); i++) {
-            sum += getComponent(i) * b.getComponent(i);
+            sum += get(i) * b.get(i);
         }
         return sum;
+    }
+
+    public Vector cross(Vector vector2) {
+        return new Vector(
+                this.get(1) * vector2.get(2) - this.get(2) * vector2.get(1),
+                this.get(2) * vector2.get(0) - this.get(0) * vector2.get(2),
+                this.get(0) * vector2.get(1) - this.get(1) * vector2.get(0)
+        );
     }
 
     public Vector min(Vector b) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            if (getComponent(i) < (this.getComponent(i)))
-                out.setComponent(i, getComponent(i));
+            if (get(i) < (this.get(i)))
+                out.set(i, get(i));
         }
         return out;
     }
@@ -71,18 +84,18 @@ public class Vector {
     public Vector max(Vector b) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            if (getComponent(i) > (this.getComponent(i)))
-                this.setComponent(i, getComponent(i));
+            if (get(i) > (this.get(i)))
+                this.set(i, get(i));
         }
         return this;
     }
 
     public Vector clamp(Vector min, Vector max) {
         for (int i = 0; i < getDimensions(); i++) {
-            if (getComponent(i) < (min.getComponent(i)))
-                this.setComponent(i, min.getComponent(i));
-            else if (getComponent(i) > (max.getComponent(i)))
-                this.setComponent(i, max.getComponent(i));
+            if (get(i) < (min.get(i)))
+                this.set(i, min.get(i));
+            else if (get(i) > (max.get(i)))
+                this.set(i, max.get(i));
         }
         return this;
     }
@@ -107,7 +120,7 @@ public class Vector {
     public Vector sum(float scalar) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) + scalar);
+            out.set(i, get(i) + scalar);
         }
         return out;
     }
@@ -115,7 +128,7 @@ public class Vector {
     public Vector sum(Vector vector) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) + vector.getComponent(i));
+            out.set(i, get(i) + vector.get(i));
         }
         return out;
     }
@@ -123,7 +136,7 @@ public class Vector {
     public Vector subtract(float scalar) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) - scalar);
+            out.set(i, get(i) - scalar);
         }
         return out;
     }
@@ -131,7 +144,7 @@ public class Vector {
     public Vector subtract(Vector vector) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) - vector.getComponent(i));
+            out.set(i, get(i) - vector.get(i));
         }
         return out;
     }
@@ -139,7 +152,7 @@ public class Vector {
     public Vector negate() {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, -getComponent(i));
+            out.set(i, -get(i));
         }
         return out;
     }
@@ -147,7 +160,7 @@ public class Vector {
     public Vector multiply(float scalar) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) * scalar);
+            out.set(i, get(i) * scalar);
         }
         return out;
     }
@@ -155,7 +168,7 @@ public class Vector {
     public Vector multiply(Vector vector) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) * vector.getComponent(i));
+            out.set(i, get(i) * vector.get(i));
         }
         return out;
     }
@@ -163,7 +176,7 @@ public class Vector {
     public Vector divide(float scalar) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) / scalar);
+            out.set(i, get(i) / scalar);
         }
         return out;
     }
@@ -171,7 +184,7 @@ public class Vector {
     public Vector divide(Vector vector) {
         Vector out = new Vector(this);
         for (int i = 0; i < getDimensions(); i++) {
-            out.setComponent(i, getComponent(i) / vector.getComponent(i));
+            out.set(i, get(i) / vector.get(i));
         }
         return out;
     }
@@ -179,7 +192,7 @@ public class Vector {
     public boolean equals(Vector vector) {
         boolean flag = true;
         for (int i = 0; i < getDimensions(); i++) {
-            flag &= getComponent(i) == vector.getComponent(i);
+            flag &= get(i) == vector.get(i);
         }
         return flag;
     }
@@ -187,7 +200,7 @@ public class Vector {
     public boolean greaterThan(Vector vector) {
         boolean flag = true;
         for (int i = 0; i < getDimensions(); i++) {
-            flag &= getComponent(i) > vector.getComponent(i);
+            flag &= get(i) > vector.get(i);
         }
         return flag;
     }
@@ -195,8 +208,27 @@ public class Vector {
     public boolean lessThan(Vector vector) {
         boolean flag = true;
         for (int i = 0; i < getDimensions(); i++) {
-            flag &= getComponent(i) < vector.getComponent(i);
+            flag &= get(i) < vector.get(i);
         }
         return flag;
+    }
+
+    public Vector multiply(Matrix matrix) {
+        int m = matrix.getRows();
+        int n = matrix.getCols();
+        Vector out = new Vector(m);
+        for (int i = 0; i < this.dimensions; i++) {
+            out.vect[i] = this.vect[i];
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (j < dimensions) {
+                    out.vect[i] += matrix.get(i, j) * get(j);
+                } else {
+                    out.vect[i] += matrix.get(i, j) * 1.0f;
+                }
+            }
+        }
+        return out;
     }
 }

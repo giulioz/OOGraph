@@ -3,21 +3,19 @@ package com.v2.surfaces.shaders.pixel;
 import com.v2.primitives.Vertex;
 import com.v2.vectormath.Vector;
 
-public class FillPixelShader<T, V extends Vertex> implements PixelShader<T, T, V> {
+public class FillPixelShader<T, V extends Vertex> implements PixelShader<T, V> {
     private T color;
 
     public FillPixelShader(T color) {
         this.color = color;
     }
 
-    @Override
-    public T getUniforms() {
+    public T getColor() {
         return color;
     }
 
-    @Override
-    public void setUniforms(T data) {
-        color = data;
+    public void setColor(T color) {
+        this.color = color;
     }
 
     @Override

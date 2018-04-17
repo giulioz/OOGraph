@@ -12,6 +12,8 @@ import com.v2.surfaces.shaders.pixel.FillPixelShader;
 import com.v2.primitives.Triangle;
 import com.v2.surfaces.shaders.pixel.PixelShader;
 import com.v2.surfaces.shaders.vertex.IdentityVertexShader;
+import com.v2.surfaces.shaders.vertex.VertexShader;
+import com.v2.vectormath.Matrix;
 import com.v2.vectormath.Vector;
 
 import java.io.FileInputStream;
@@ -46,31 +48,27 @@ public class Main {
             graphics.setPixelShader(new FillPixelShader<>(new ColorRGB24(50, 50, 100)));
             graphics.fillRectangle(100, 200, 200, 50);
 
-            graphics.setPixelShader(new PixelShader<ColorRGB24, Object, ColoredVertex>() {
-                @Override
-                public Object getUniforms() {
-                    return null;
-                }
-                @Override
-                public void setUniforms(Object data) {
-
-                }
-
-                @Override
-                public ColorRGB24 getColor(float x, float y, ColoredVertex va, ColoredVertex vb, ColoredVertex vc, Vector barycentric) {
-                    float intensity = (float)((Math.sin(x / 10.0) + 1.0) / 2.0);
-                    return new ColorRGB24(0, (int)(255 * intensity), 0);
-                }
+            graphics.setPixelShader((x, y, va, vb, vc, barycentric) -> {
+                float intensity = (float)((Math.sin(x / 10.0) + 1.0) / 2.0);
+                return new ColorRGB24(0, (int)(255 * intensity), 0);
             });
             graphics.fillRectangle(50, 80, 200, 50);
 
             Triangle<ColoredVertex> triangle = new Triangle<>(
-                    new ColoredVertex(300, 150, 1, 0, 0),
-                    new ColoredVertex(450, 300, 0, 1, 0),
-                    new ColoredVertex(700, 270, 0, 0, 1)
+                    new ColoredVertex(0.0f, 0.0f, 1, 0, 0),
+                    new ColoredVertex(0.0f, 1.0f, 0, 1, 0),
+                    new ColoredVertex(1.0f, 1.0f, 0, 0, 1)
             );
             graphics.setPixelShader(new ColoredPixelShader());
-            graphics.fillTriangle(triangle, new IdentityVertexShader<>());
+            final float rt = t;
+            graphics.fillTriangle(triangle, (ColoredVertex input) -> {
+                Vector pos = input.getPosition();
+                Matrix screen = Matrix.createTranslation(4, 4, new Vector(4, 4, graphics.getSurface().getWidth() / 2, graphics.getSurface().getHeight() / 2 ))
+                        .multiply(Matrix.createScale(4,4, new Vector(graphics.getSurface().getWidth() / 2, graphics.getSurface().getHeight() / 2)));
+                //Matrix mat = Matrix.createRotationY_4x4(rt).multiply(screen);
+                Vector tPos = pos.multiply(screen);
+                return new ColoredVertex(tPos, input.getColorVector());
+            });
 
             graphics.getSurface().blit(texture, new Point(100, 400));
 

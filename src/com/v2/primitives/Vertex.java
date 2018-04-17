@@ -19,6 +19,6 @@ public class Vertex {
     }
 
     public Point getPoint() {
-        return new Point((int)position.getComponent(0), (int)position.getComponent(1));
+        return new Point((int)position.get(0), (int)position.get(1));
     }
 }
