@@ -1,4 +1,4 @@
-package com.OOGraph.surfaces.colors;
+package com.OOGraph.rastersurfaces.colors;
 
 public class ColorRGB24 {
     private byte r, g, b;

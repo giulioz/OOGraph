@@ -1,6 +1,6 @@
-package com.OOGraph.surfaces;
+package com.OOGraph.rastersurfaces;
 
-import com.OOGraph.surfaces.colors.ColorRGB24;
+import com.OOGraph.rastersurfaces.colors.ColorRGB24;
 
 public class SurfaceRGB24 extends ByteArraySurface<ColorRGB24> {
     public SurfaceRGB24(byte[] data, int width, int height) {

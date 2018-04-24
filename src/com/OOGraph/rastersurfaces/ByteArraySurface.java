@@ -1,4 +1,4 @@
-package com.OOGraph.surfaces;
+package com.OOGraph.rastersurfaces;
 
 public abstract class ByteArraySurface<T> implements Surface<T> {
     protected byte[] data;

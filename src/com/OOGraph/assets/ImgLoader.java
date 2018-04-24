@@ -1,7 +1,7 @@
 package com.OOGraph.assets;
 
-import com.OOGraph.surfaces.SurfaceRGB24;
-import com.OOGraph.surfaces.colors.ColorRGB24;
+import com.OOGraph.rastersurfaces.SurfaceRGB24;
+import com.OOGraph.rastersurfaces.colors.ColorRGB24;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

@@ -1,6 +1,6 @@
 package com.OOGraph.io;
 
-import com.OOGraph.surfaces.Surface;
+import com.OOGraph.rastersurfaces.Surface;
 
 public interface GraphicsFrame<T> {
     int getWidth();

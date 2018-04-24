@@ -17,4 +17,13 @@ public class Vertex {
     public Point getPoint() {
         return new Point((int)position.get(0), (int)position.get(1));
     }
+
+    public MatrixVertexTransformer getMatrixVertexTransformer() {
+        return new MatrixVertexTransformer<Vertex>() {
+            @Override
+            public Vertex transform(Vertex in) {
+                return new Vertex(in.position.multiply(getTransformMatrix()));
+            }
+        };
+    }
 }

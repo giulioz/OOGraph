@@ -1,4 +1,4 @@
-package com.OOGraph.surfaces.shaders.pixel;
+package com.OOGraph.rastersurfaces.shaders;
 
 import com.OOGraph.primitives.Vertex;
 import com.OOGraph.math.Vector;

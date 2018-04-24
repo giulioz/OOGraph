@@ -1,7 +1,7 @@
-package com.OOGraph.surfaces.shaders.pixel;
+package com.OOGraph.rastersurfaces.shaders;
 
 import com.OOGraph.primitives.ColoredVertex;
-import com.OOGraph.surfaces.colors.ColorRGB24;
+import com.OOGraph.rastersurfaces.colors.ColorRGB24;
 import com.OOGraph.math.Vector;
 
 public class ColoredPixelShader implements PixelShader<ColorRGB24, ColoredVertex> {

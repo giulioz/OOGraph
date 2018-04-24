@@ -15,4 +15,14 @@ public class ColoredVertex extends Vertex {
         super(position);
         this.color = new Vector(r, g, b);
     }
+
+    @Override
+    public MatrixVertexTransformer getMatrixVertexTransformer() {
+        return new MatrixVertexTransformer<ColoredVertex>() {
+            @Override
+            public ColoredVertex transform(ColoredVertex in) {
+                return new ColoredVertex(in.position.multiply(getTransformMatrix()), in.color);
+            }
+        };
+    }
 }

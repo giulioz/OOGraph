@@ -1,6 +1,7 @@
 package com.OOGraph.primitives;
 
 import com.OOGraph.math.MathHelper;
+import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Rectangle;
 
 public class Triangle<T extends Vertex> {
@@ -46,5 +47,17 @@ public class Triangle<T extends Vertex> {
         bboxmaxy = MathHelper.min(clamp.getHeight(), MathHelper.max(bboxmaxy, c.getPoint().y));
 
         return new Rectangle(bboxminx, bboxminy, bboxmaxx - bboxminx, bboxmaxy - bboxminy);
+    }
+
+    public Triangle<T> transformVertices(VertexTransformer<T> t) {
+        return new Triangle<>(
+                t.transform(this.getA()),
+                t.transform(this.getB()),
+                t.transform(this.getC())
+        );
+    }
+
+    public MatrixVertexTransformer<T> getMatrixMultiplicator() {
+        return a.getMatrixVertexTransformer();
     }
 }

@@ -1,7 +1,9 @@
-package com.OOGraph.surfaces;
+package com.OOGraph.rastersurfaces;
 
+import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Point;
 import com.OOGraph.math.Rectangle;
+import com.OOGraph.math.Vector;
 
 public interface Surface<T> {
     byte[] getSurfaceData();
@@ -60,5 +62,21 @@ public interface Surface<T> {
                 setXY(xIndexDst, yIndexDst, source.getXY(xIndexSrc, yIndexSrc));
             }
         }
+    }
+
+    default Vector cartesianToSurface(Vector input) {
+        int halfWidth = this.getWidth() / 2;
+        int halfHeight = this.getHeight() / 2;
+        Vector tVec = input
+                .multiply(new Vector(halfWidth, halfHeight))
+                .sum(new Vector(halfWidth, halfHeight));
+        return tVec;
+    }
+
+    default Matrix cartesianToSurfaceMatrix() {
+        int halfWidth = this.getWidth() / 2;
+        int halfHeight = this.getHeight() / 2;
+        return Matrix.createTranslation(4, 4, new Vector(this.getWidth(), this.getHeight()))
+                .multiply(Matrix.createScale(4, 4, new Vector(halfWidth, halfHeight).divide(2.0f)));
     }
 }

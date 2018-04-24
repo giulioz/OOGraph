@@ -1,8 +1,36 @@
 package com.OOGraph.scenegraph;
 
-import com.OOGraph.surfaces.Surface;
+import com.OOGraph.math.Matrix;
+import com.OOGraph.primitives.Vertex;
 
-public interface SceneNode {
-    void update(float dt);
-    void draw(Surface surface);
+import java.util.Collection;
+
+public interface SceneNode<Tvertex extends Vertex> {
+    default void update(float dt) {
+        if (getEnabled()) {
+            for (SceneNode children : getChildren()) {
+                children.update(dt);
+            }
+        }
+    }
+
+    default void draw(Matrix parentTransform, Renderer<Tvertex> renderer) {
+        if (getEnabled()) {
+            Matrix t = parentTransform.multiply(getTransform());
+            for (SceneNode children : getChildren()) {
+                children.draw(t, renderer);
+            }
+        }
+    }
+
+    boolean getEnabled();
+    void setEnabled(boolean enabled);
+
+    Collection<SceneNode> getChildren();
+    void addChildren(SceneNode children);
+    void removeChildren(SceneNode children);
+
+    default Matrix getTransform() {
+        return SceneGraphFactory.getFactory().createIdentityMatrix();
+    }
 }

@@ -1,12 +1,11 @@
-package com.OOGraph.surfaces;
+package com.OOGraph.rastersurfaces;
 
 import com.OOGraph.math.Point;
 import com.OOGraph.math.Rectangle;
 import com.OOGraph.primitives.Mesh;
 import com.OOGraph.primitives.Vertex;
-import com.OOGraph.surfaces.shaders.pixel.PixelShader;
+import com.OOGraph.rastersurfaces.shaders.PixelShader;
 import com.OOGraph.primitives.Triangle;
-import com.OOGraph.surfaces.shaders.vertex.VertexShader;
 import com.OOGraph.math.Vector;
 
 public class SurfaceDrawer<Tcolor,Tvertex extends Vertex> {
@@ -97,10 +96,8 @@ public class SurfaceDrawer<Tcolor,Tvertex extends Vertex> {
         }
     }
 
-    public void fillTriangle(Triangle<Tvertex> triangle, VertexShader<Tvertex> vertexShader) {
-        Triangle<Tvertex> pT = new Triangle<>(vertexShader.getVertex(triangle.getA()),
-                vertexShader.getVertex(triangle.getB()),
-                vertexShader.getVertex(triangle.getC()));
+    public void fillTriangle(Triangle<Tvertex> triangle) {
+        Triangle<Tvertex> pT = triangle;
         Rectangle boundingBox = pT.getBoundingBox(surface.getRect());
         int startX = boundingBox.getX(), endX = startX + boundingBox.getWidth();
         int startY = boundingBox.getY(), endY = startY + boundingBox.getHeight();
@@ -115,9 +112,9 @@ public class SurfaceDrawer<Tcolor,Tvertex extends Vertex> {
         }
     }
 
-    public void drawMesh(Mesh<Tvertex> mesh, VertexShader<Tvertex> vertexShader) {
+    public void drawMesh(Mesh<Tvertex> mesh) {
         for (Triangle<Tvertex> t : mesh) {
-            fillTriangle(t, vertexShader);
+            fillTriangle(t);
         }
     }
 }
