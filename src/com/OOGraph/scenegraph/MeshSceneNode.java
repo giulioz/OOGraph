@@ -2,8 +2,9 @@ package com.OOGraph.scenegraph;
 
 import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Vector;
-import com.OOGraph.primitives.MatrixVertexTransformer;
+import com.OOGraph.primitives.ArrayMesh;
 import com.OOGraph.primitives.Mesh;
+import com.OOGraph.primitives.Triangle;
 import com.OOGraph.primitives.Vertex;
 
 import java.util.Collection;
@@ -99,10 +100,7 @@ public class MeshSceneNode<Tvertex extends Vertex> implements PositionableSceneN
     @Override
     public void draw(Matrix parentTransform, Renderer<Tvertex> renderer) {
         if (enabled) {
-            MatrixVertexTransformer<Tvertex> matrixMultiplicator = mesh.getMatrixMultiplicator();
-            matrixMultiplicator.setTransformMatrix(getTransform().multiply(parentTransform));
-            Mesh<Tvertex> tMesh = mesh.transformVertices(matrixMultiplicator);
-            renderer.drawMesh(tMesh);
+            renderer.drawMesh(mesh.transformMatrix(parentTransform.multiply(getTransform())));
         }
         PositionableSceneNode.super.draw(parentTransform, renderer);
     }

@@ -12,4 +12,8 @@ public class MathHelper {
     public static int max(int a, int b) {
         return a < b ? b : a;
     }
+
+    public static float clamp(float val, float min, float max) {
+        return val > min ? (val < max ? val : max) : min;
+    }
 }

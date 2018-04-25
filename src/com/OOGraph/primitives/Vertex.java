@@ -1,10 +1,11 @@
 package com.OOGraph.primitives;
 
+import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Point;
 import com.OOGraph.math.Vector;
 
 public class Vertex {
-    protected Vector position;
+    Vector position;
 
     public Vertex(Vector position) {
         this.position = position;
@@ -18,12 +19,11 @@ public class Vertex {
         return new Point((int)position.get(0), (int)position.get(1));
     }
 
-    public MatrixVertexTransformer getMatrixVertexTransformer() {
-        return new MatrixVertexTransformer<Vertex>() {
-            @Override
-            public Vertex transform(Vertex in) {
-                return new Vertex(in.position.multiply(getTransformMatrix()));
-            }
-        };
+    public Vertex createCopy() {
+        return new Vertex(new Vector(position));
+    }
+
+    public Vertex transformMatrix(Matrix transform) {
+        return new Vertex(position.multiply(transform));
     }
 }

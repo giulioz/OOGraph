@@ -6,11 +6,20 @@ import java.util.ArrayList;
 
 public class ArrayMesh<T extends Vertex> extends ArrayList<Triangle<T>> implements Mesh<T> {
     @Override
-    public Mesh<T> transformVertices(VertexTransformer<T> transformer) {
-        ArrayMesh<T> copyMesh = new ArrayMesh<>();
-        for (Triangle<T> tTriangle : this) {
-            copyMesh.add(tTriangle.transformVertices(transformer));
+    public Mesh<T> cloneMesh() {
+        ArrayMesh<T> clonedList = new ArrayMesh<>();
+        for (Triangle<T> triangle : this) {
+            clonedList.add(new Triangle<>(triangle));
         }
-        return copyMesh;
+        return clonedList;
+    }
+
+    @Override
+    public Mesh<T> transformMatrix(Matrix transform) {
+        ArrayMesh<T> clonedList = new ArrayMesh<>();
+        for (Triangle<T> triangle : this) {
+            clonedList.add(triangle.transformMatrix(transform));
+        }
+        return clonedList;
     }
 }

@@ -3,14 +3,29 @@ package com.OOGraph.primitives;
 import com.OOGraph.math.MathHelper;
 import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Rectangle;
+import com.OOGraph.math.Vector;
 
 public class Triangle<T extends Vertex> {
     private T a, b, c;
+
+    private Triangle() {
+
+    }
 
     public Triangle(T a, T b, T c) {
         this.a = a;
         this.b = b;
         this.c = c;
+    }
+
+    public Triangle(Triangle<T> copy) {
+        try {
+            this.a = (T) copy.a.createCopy();
+            this.b = (T) copy.b.createCopy();
+            this.c = (T) copy.c.createCopy();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public T getA() {
@@ -49,15 +64,11 @@ public class Triangle<T extends Vertex> {
         return new Rectangle(bboxminx, bboxminy, bboxmaxx - bboxminx, bboxmaxy - bboxminy);
     }
 
-    public Triangle<T> transformVertices(VertexTransformer<T> t) {
-        return new Triangle<>(
-                t.transform(this.getA()),
-                t.transform(this.getB()),
-                t.transform(this.getC())
-        );
-    }
-
-    public MatrixVertexTransformer<T> getMatrixMultiplicator() {
-        return a.getMatrixVertexTransformer();
+    public Triangle<T> transformMatrix(Matrix transform) {
+        Triangle<T> tcopy = new Triangle<>();
+        tcopy.a = (T) a.transformMatrix(transform);
+        tcopy.b = (T) b.transformMatrix(transform);
+        tcopy.c = (T) c.transformMatrix(transform);
+        return tcopy;
     }
 }

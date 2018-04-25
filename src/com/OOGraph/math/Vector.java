@@ -219,20 +219,28 @@ public class Vector {
     }
 
     public Vector multiply(Matrix matrix) {
+        return multiplyFourth(matrix, 1.0f);
+    }
+
+    private Vector multiplyFourth(Matrix matrix, float v) {
         int m = matrix.getRows();
         int n = matrix.getCols();
         Vector out = new Vector(m);
         for (int i = 0; i < m; i++) {
+            float val = 0.0f;
             for (int j = 0; j < n; j++) {
-                float val = 0.0f;
                 if (j < dimensions) {
                     val += matrix.get(i, j) * get(j);
                 } else {
-                    val += matrix.get(i, j) * 1.0f;
+                    val += matrix.get(i, j) * v;
                 }
-                out.vect[i] = val;
             }
+            out.vect[i] = val;
         }
         return out;
+    }
+
+    public Vector multiplyNormal(Matrix matrix) {
+        return multiplyFourth(matrix, 0.0f);
     }
 }

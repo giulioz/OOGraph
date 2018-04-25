@@ -7,6 +7,7 @@ import com.OOGraph.primitives.*;
 import com.OOGraph.rastersurfaces.RasterRenderer;
 import com.OOGraph.rastersurfaces.SurfaceRGB24;
 import com.OOGraph.rastersurfaces.colors.ColorRGB24;
+import com.OOGraph.rastersurfaces.shaders.ColoredNormalPixelShader;
 import com.OOGraph.rastersurfaces.shaders.ColoredPixelShader;
 import com.OOGraph.rastersurfaces.shaders.FillPixelShader;
 import com.OOGraph.math.Matrix;
@@ -42,29 +43,29 @@ public class Main {
         );
 
         // Mesh Renderer
-        Renderer<ColoredVertex> meshRenderer = new RasterRenderer<>(
+        Renderer<ColoredNormalVertex> meshRenderer = new RasterRenderer<>(
                 frame.getFramebuffer(),
-                new ColoredPixelShader()
+                new ColoredNormalPixelShader(new Vector(0, 0, 1))
         );
 
         // Mesh node
-        Mesh<ColoredVertex> mesh = new ArrayMesh<>();
+        Mesh<ColoredNormalVertex> mesh = new ArrayMesh<>();
         mesh.add(new Triangle<>(
-                new ColoredVertex(new Vector(-0.5f, -0.5f, 0.0f), 1, 0, 0),
-                new ColoredVertex(new Vector(0.5f, -0.5f, 0.0f), 0, 1, 0),
-                new ColoredVertex(new Vector(0.0f, 0.5f, 0.0f), 0, 0, 1)
+                new ColoredNormalVertex(new Vector(-0.5f, -0.5f, 0.0f), new Vector(0, 0, -1), 1, 0, 0),
+                new ColoredNormalVertex(new Vector(0.5f, -0.5f, 0.0f), new Vector(0, 0, -1), 0, 1, 0),
+                new ColoredNormalVertex(new Vector(0.0f, 0.5f, 0.0f), new Vector(0, 0, -1), 0, 0, 1)
         ));
-        MeshSceneNode<ColoredVertex> triangleNode = new MeshSceneNode<>(mesh);
+        MeshSceneNode<ColoredNormalVertex> triangleNode = new MeshSceneNode<>(mesh);
 
         // Camera root node
-        Camera<ColoredVertex> cameraNode = new Camera<>();
+        Camera<ColoredNormalVertex> cameraNode = new Camera<>();
         cameraNode.addChildren(triangleNode);
 
         // Rendering cycle
         float t = 0.0f;
         while (frame.isOpen()) {
             clearRenderer.fill();
-            triangleNode.setRotation(new Vector(0.0f, t, 0.0f));
+            triangleNode.setRotation(new Vector(t, t, t));
             cameraNode.draw(frame.getFramebuffer().cartesianToSurfaceMatrix(), meshRenderer);
 
             frame.swapBuffers();

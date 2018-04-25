@@ -68,7 +68,7 @@ public interface Surface<T> {
         int halfWidth = this.getWidth() / 2;
         int halfHeight = this.getHeight() / 2;
         Vector tVec = input
-                .multiply(new Vector(halfWidth, halfHeight))
+                .multiply(new Vector(halfWidth, -halfHeight))
                 .sum(new Vector(halfWidth, halfHeight));
         return tVec;
     }
@@ -76,7 +76,7 @@ public interface Surface<T> {
     default Matrix cartesianToSurfaceMatrix() {
         int halfWidth = this.getWidth() / 2;
         int halfHeight = this.getHeight() / 2;
-        return Matrix.createTranslation(4, 4, new Vector(this.getWidth(), this.getHeight()))
-                .multiply(Matrix.createScale(4, 4, new Vector(halfWidth, halfHeight).divide(2.0f)));
+        return Matrix.createTranslation(4, 4, new Vector(halfWidth, halfHeight))
+                .multiply(Matrix.createScale(4, 4, new Vector(halfWidth, -halfHeight)));
     }
 }

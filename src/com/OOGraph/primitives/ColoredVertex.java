@@ -1,10 +1,10 @@
 package com.OOGraph.primitives;
 
+import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Vector;
 
 public class ColoredVertex extends Vertex {
-    protected Vector color;
-    public Vector getColorVector() { return color; }
+    Vector color;
 
     public ColoredVertex(Vector position, Vector color) {
         super(position);
@@ -16,13 +16,16 @@ public class ColoredVertex extends Vertex {
         this.color = new Vector(r, g, b);
     }
 
+    public Vector getColor() {
+        return color;
+    }
     @Override
-    public MatrixVertexTransformer getMatrixVertexTransformer() {
-        return new MatrixVertexTransformer<ColoredVertex>() {
-            @Override
-            public ColoredVertex transform(ColoredVertex in) {
-                return new ColoredVertex(in.position.multiply(getTransformMatrix()), in.color);
-            }
-        };
+    public ColoredVertex createCopy() {
+        return new ColoredVertex(new Vector(position), new Vector(color));
+    }
+
+    @Override
+    public ColoredVertex transformMatrix(Matrix transform) {
+        return new ColoredVertex(position.multiply(transform), color);
     }
 }

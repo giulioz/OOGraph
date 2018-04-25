@@ -1,14 +1,12 @@
 package com.OOGraph.primitives;
 
+import com.OOGraph.math.Matrix;
+
 import java.util.List;
 
 public interface Mesh<T extends Vertex> extends List<Triangle<T>> {
-    Mesh<T> transformVertices(VertexTransformer<T> transformer);
-
-    default MatrixVertexTransformer<T> getMatrixMultiplicator() {
-        if (size() > 0) return get(0).getMatrixMultiplicator();
-        else return null;
-    }
+    Mesh<T> cloneMesh();
+    Mesh<T> transformMatrix(Matrix transform);
 
     // funzioni fighe per le mesh
 }
