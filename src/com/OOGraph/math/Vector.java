@@ -222,14 +222,15 @@ public class Vector {
         int m = matrix.getRows();
         int n = matrix.getCols();
         Vector out = new Vector(m);
-        System.arraycopy(this.vect, 0, out.vect, 0, this.dimensions);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
+                float val = 0.0f;
                 if (j < dimensions) {
-                    out.vect[i] += matrix.get(j, i) * get(j);
+                    val += matrix.get(i, j) * get(j);
                 } else {
-                    out.vect[i] += matrix.get(j, i) * 1.0f;
+                    val += matrix.get(i, j) * 1.0f;
                 }
+                out.vect[i] = val;
             }
         }
         return out;

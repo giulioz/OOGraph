@@ -1,6 +1,7 @@
 package com.OOGraph.scenegraph;
 
 import com.OOGraph.math.Matrix;
+import com.OOGraph.primitives.Vertex;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -13,13 +14,13 @@ public abstract class SceneGraphFactory {
         return factory;
     }
 
-    public abstract Collection<SceneNode> createSceneNodeCollection();
+    public abstract <T extends Vertex> Collection<SceneNode<T>> createSceneNodeCollection();
     public abstract Matrix createIdentityMatrix();
 }
 
 class DefaultSceneGraphFactory extends SceneGraphFactory {
     @Override
-    public Collection<SceneNode> createSceneNodeCollection() {
+    public <T extends Vertex> Collection<SceneNode<T>> createSceneNodeCollection() {
         return new LinkedList<>();
     }
 

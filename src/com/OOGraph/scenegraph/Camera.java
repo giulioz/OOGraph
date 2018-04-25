@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public class Camera<Tvertex extends Vertex> implements SceneNode<Tvertex> {
     private Matrix view, projection;
-    private Collection<SceneNode> children;
+    private Collection<SceneNode<Tvertex>> children;
 
     public Camera() {
         this.view = SceneGraphFactory.getFactory().createIdentityMatrix();
@@ -32,7 +32,7 @@ public class Camera<Tvertex extends Vertex> implements SceneNode<Tvertex> {
     }
 
     @Override
-    public Collection<SceneNode> getChildren() {
+    public Collection<SceneNode<Tvertex>> getChildren() {
         return children;
     }
 

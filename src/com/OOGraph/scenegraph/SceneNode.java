@@ -17,7 +17,7 @@ public interface SceneNode<Tvertex extends Vertex> {
     default void draw(Matrix parentTransform, Renderer<Tvertex> renderer) {
         if (getEnabled()) {
             Matrix t = parentTransform.multiply(getTransform());
-            for (SceneNode children : getChildren()) {
+            for (SceneNode<Tvertex> children : getChildren()) {
                 children.draw(t, renderer);
             }
         }
@@ -26,9 +26,9 @@ public interface SceneNode<Tvertex extends Vertex> {
     boolean getEnabled();
     void setEnabled(boolean enabled);
 
-    Collection<SceneNode> getChildren();
-    void addChildren(SceneNode children);
-    void removeChildren(SceneNode children);
+    Collection<SceneNode<Tvertex>> getChildren();
+    void addChildren(SceneNode<Tvertex> children);
+    void removeChildren(SceneNode<Tvertex> children);
 
     default Matrix getTransform() {
         return SceneGraphFactory.getFactory().createIdentityMatrix();

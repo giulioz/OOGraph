@@ -12,7 +12,7 @@ public class MeshSceneNode<Tvertex extends Vertex> implements PositionableSceneN
     private Mesh<Tvertex> mesh;
     private Vector position, rotation, scale;
     private boolean enabled;
-    private Collection<SceneNode> children;
+    private Collection<SceneNode<Tvertex>> children;
 
     public MeshSceneNode(Mesh<Tvertex> mesh, Vector position, Vector rotation, Vector scale) {
         this.mesh = mesh;
@@ -73,17 +73,17 @@ public class MeshSceneNode<Tvertex extends Vertex> implements PositionableSceneN
     }
 
     @Override
-    public Collection<SceneNode> getChildren() {
+    public Collection<SceneNode<Tvertex>> getChildren() {
         return children;
     }
 
     @Override
-    public void addChildren(SceneNode children) {
+    public void addChildren(SceneNode<Tvertex> children) {
         this.children.add(children);
     }
 
     @Override
-    public void removeChildren(SceneNode children) {
+    public void removeChildren(SceneNode<Tvertex> children) {
         this.children.remove(children);
     }
 
