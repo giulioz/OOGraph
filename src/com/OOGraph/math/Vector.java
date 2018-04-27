@@ -105,6 +105,13 @@ public class Vector {
         return this;
     }
 
+    public Vector wrap(Vector max) {
+        for (int i = 0; i < getDimensions(); i++) {
+            this.set(i, this.get(i) % max.get(i));
+        }
+        return this;
+    }
+
 
     public Vector normalize() {
         return this.divide(this.length());

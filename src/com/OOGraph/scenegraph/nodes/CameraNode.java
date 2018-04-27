@@ -1,21 +1,31 @@
-package com.OOGraph.scenegraph;
+package com.OOGraph.scenegraph.nodes;
 
 import com.OOGraph.math.Matrix;
-import com.OOGraph.primitives.Vertex;
+import com.OOGraph.math.Vector;
+import com.OOGraph.primitives.vertices.Vertex;
+import com.OOGraph.scenegraph.MeshRenderer;
+import com.OOGraph.scenegraph.SceneGraphFactory;
+import com.OOGraph.scenegraph.SceneNode;
 
 import java.util.Collection;
 
-public class Camera<Tvertex extends Vertex> implements SceneNode<Tvertex> {
+public class CameraNode implements SceneNode<Vertex> {
     private Matrix view, projection;
-    private Collection<SceneNode<Tvertex>> children;
+    private Collection<SceneNode> children;
 
-    public Camera() {
+    public CameraNode() {
         this.view = SceneGraphFactory.getFactory().createIdentityMatrix();
         this.projection = SceneGraphFactory.getFactory().createIdentityMatrix();
         this.children = SceneGraphFactory.getFactory().createSceneNodeCollection();
     }
 
-    public Camera(Matrix view, Matrix projection) {
+    public CameraNode(Vector camPos, Vector camDir, Vector camUp) {
+        this.view = Matrix.createLookAt_4x4(camPos, camDir, camUp);
+        this.projection = SceneGraphFactory.getFactory().createIdentityMatrix();
+        this.children = SceneGraphFactory.getFactory().createSceneNodeCollection();
+    }
+
+    public CameraNode(Matrix view, Matrix projection) {
         this.view = view;
         this.projection = projection;
         this.children = SceneGraphFactory.getFactory().createSceneNodeCollection();
@@ -32,7 +42,7 @@ public class Camera<Tvertex extends Vertex> implements SceneNode<Tvertex> {
     }
 
     @Override
-    public Collection<SceneNode<Tvertex>> getChildren() {
+    public Collection<SceneNode> getChildren() {
         return children;
     }
 
@@ -49,5 +59,10 @@ public class Camera<Tvertex extends Vertex> implements SceneNode<Tvertex> {
     @Override
     public Matrix getTransform() {
         return projection.multiply(view);
+    }
+
+    @Override
+    public MeshRenderer<Vertex> getMeshRenderer() {
+        return null;
     }
 }

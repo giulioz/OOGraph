@@ -1,22 +1,21 @@
-package com.OOGraph.scenegraph;
+package com.OOGraph.scenegraph.nodes;
 
 import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Vector;
-import com.OOGraph.primitives.ArrayMesh;
-import com.OOGraph.primitives.Mesh;
-import com.OOGraph.primitives.Triangle;
-import com.OOGraph.primitives.Vertex;
+import com.OOGraph.primitives.vertices.Vertex;
+import com.OOGraph.scenegraph.MeshRenderer;
+import com.OOGraph.scenegraph.PositionableSceneNode;
+import com.OOGraph.scenegraph.SceneGraphFactory;
+import com.OOGraph.scenegraph.SceneNode;
 
 import java.util.Collection;
 
-public class MeshSceneNode<Tvertex extends Vertex> implements PositionableSceneNode<Tvertex> {
-    private Mesh<Tvertex> mesh;
-    private Vector position, rotation, scale;
-    private boolean enabled;
-    private Collection<SceneNode<Tvertex>> children;
+public class GroupNode<Tvertex extends Vertex> implements PositionableSceneNode<Tvertex> {
+    protected Vector position, rotation, scale;
+    protected boolean enabled;
+    protected Collection<SceneNode> children;
 
-    public MeshSceneNode(Mesh<Tvertex> mesh, Vector position, Vector rotation, Vector scale) {
-        this.mesh = mesh;
+    public GroupNode(Vector position, Vector rotation, Vector scale) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
@@ -24,13 +23,17 @@ public class MeshSceneNode<Tvertex extends Vertex> implements PositionableSceneN
         this.children = SceneGraphFactory.getFactory().createSceneNodeCollection();
     }
 
-    public MeshSceneNode(Mesh<Tvertex> mesh) {
-        this.mesh = mesh;
-        this.position = new Vector(0,0,0);
-        this.rotation = new Vector(0,0,0);
-        this.scale = new Vector(1,1,1);
+    public GroupNode() {
+        this.position = new Vector(0, 0, 0);
+        this.rotation = new Vector(0, 0, 0);
+        this.scale = new Vector(1, 1, 1);
         this.enabled = true;
         this.children = SceneGraphFactory.getFactory().createSceneNodeCollection();
+    }
+
+    @Override
+    public MeshRenderer<Tvertex> getMeshRenderer() {
+        return null;
     }
 
     @Override
@@ -74,34 +77,26 @@ public class MeshSceneNode<Tvertex extends Vertex> implements PositionableSceneN
     }
 
     @Override
-    public Collection<SceneNode<Tvertex>> getChildren() {
+    public Collection<SceneNode> getChildren() {
         return children;
     }
 
     @Override
-    public void addChildren(SceneNode<Tvertex> children) {
+    public void addChildren(SceneNode children) {
         this.children.add(children);
     }
 
     @Override
-    public void removeChildren(SceneNode<Tvertex> children) {
+    public void removeChildren(SceneNode children) {
         this.children.remove(children);
     }
 
     @Override
     public Matrix getTransform() {
         return Matrix.createTranslation(4, 4, position)
+                .multiply(Matrix.createScale(4, 4, scale))
                 .multiply(Matrix.createRotationX_4x4(rotation.get(0)))
                 .multiply(Matrix.createRotationY_4x4(rotation.get(1)))
-                .multiply(Matrix.createRotationZ_4x4(rotation.get(2)))
-                .multiply(Matrix.createScale(4, 4, scale));
-    }
-
-    @Override
-    public void draw(Matrix parentTransform, Renderer<Tvertex> renderer) {
-        if (enabled) {
-            renderer.drawMesh(mesh.transformMatrix(parentTransform.multiply(getTransform())));
-        }
-        PositionableSceneNode.super.draw(parentTransform, renderer);
+                .multiply(Matrix.createRotationZ_4x4(rotation.get(2)));
     }
 }

@@ -1,7 +1,8 @@
 package com.OOGraph.assets;
 
-import com.OOGraph.rastersurfaces.SurfaceRGB24;
-import com.OOGraph.rastersurfaces.colors.ColorRGB24;
+import com.OOGraph.math.MathHelper;
+import com.OOGraph.raster.SurfaceRGB24;
+import com.OOGraph.raster.colors.ColorRGB24;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,10 +24,10 @@ public class ImgLoader implements AssetLoader<SurfaceRGB24> {
         SurfaceRGB24 surface = new SurfaceRGB24(jImg.getWidth(), jImg.getHeight());
         for (int yPixel = 0; yPixel < jImg.getHeight(); yPixel++) {
             for (int xPixel = 0; xPixel < jImg.getWidth(); xPixel++) {
-                int color = jImg.getRGB(xPixel, yPixel);
-                int r = (color & 0xFF0000) >> 16;
-                int g = (color & 0xFF00) >> 8;
-                int b = (color & 0xFF);
+                long color = MathHelper.getUnsignedInt(jImg.getRGB(xPixel, yPixel));
+                int r = (int) ((color & 0xFF0000) >> 16);
+                int g = (int) ((color & 0xFF00) >> 8);
+                int b = (int) ((color & 0xFF));
                 surface.setXY(xPixel, yPixel, new ColorRGB24(r, g, b));
             }
         }

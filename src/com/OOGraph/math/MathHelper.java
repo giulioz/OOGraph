@@ -16,4 +16,12 @@ public class MathHelper {
     public static float clamp(float val, float min, float max) {
         return val > min ? (val < max ? val : max) : min;
     }
+
+    public static long getUnsignedInt(int x) {
+        return x & 0x00000000ffffffffL;
+    }
+
+    public static int getUnsignedByte(byte x) {
+        return x & 0xff;
+    }
 }

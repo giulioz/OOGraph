@@ -1,7 +1,7 @@
 package com.OOGraph.scenegraph;
 
 import com.OOGraph.math.Matrix;
-import com.OOGraph.primitives.Vertex;
+import com.OOGraph.primitives.vertices.Vertex;
 
 import java.util.Collection;
 
@@ -14,11 +14,13 @@ public interface SceneNode<Tvertex extends Vertex> {
         }
     }
 
-    default void draw(Matrix parentTransform, Renderer<Tvertex> renderer) {
+    MeshRenderer<Tvertex> getMeshRenderer();
+
+    default void draw(Matrix parentTransform) {
         if (getEnabled()) {
             Matrix t = parentTransform.multiply(getTransform());
-            for (SceneNode<Tvertex> children : getChildren()) {
-                children.draw(t, renderer);
+            for (SceneNode children : getChildren()) {
+                children.draw(t);
             }
         }
     }
@@ -26,9 +28,11 @@ public interface SceneNode<Tvertex extends Vertex> {
     boolean getEnabled();
     void setEnabled(boolean enabled);
 
-    Collection<SceneNode<Tvertex>> getChildren();
-    void addChildren(SceneNode<Tvertex> children);
-    void removeChildren(SceneNode<Tvertex> children);
+    Collection<SceneNode> getChildren();
+
+    void addChildren(SceneNode children);
+
+    void removeChildren(SceneNode children);
 
     default Matrix getTransform() {
         return SceneGraphFactory.getFactory().createIdentityMatrix();

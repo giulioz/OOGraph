@@ -183,15 +183,15 @@ public class Matrix {
         Matrix result = new Matrix(4, 4);
 
         result.mat[0][0] = xaxis.get(0);
-        result.mat[0][1] = yaxis.get(0);
-        result.mat[0][2] = zaxis.get(0);
+        result.mat[0][1] = xaxis.get(1);
+        result.mat[0][2] = xaxis.get(2);
         result.mat[0][3] = 0.0f;
-        result.mat[1][0] = xaxis.get(1);
+        result.mat[1][0] = yaxis.get(0);
         result.mat[1][1] = yaxis.get(1);
-        result.mat[1][2] = zaxis.get(1);
+        result.mat[1][2] = yaxis.get(2);
         result.mat[1][3] = 0.0f;
-        result.mat[2][0] = xaxis.get(2);
-        result.mat[2][1] = yaxis.get(2);
+        result.mat[2][0] = zaxis.get(0);
+        result.mat[2][1] = zaxis.get(1);
         result.mat[2][2] = zaxis.get(2);
         result.mat[2][3] = 0.0f;
         result.mat[3][0] = -xaxis.dot(cameraPosition);

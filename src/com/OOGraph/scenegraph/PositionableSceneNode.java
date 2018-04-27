@@ -1,7 +1,7 @@
 package com.OOGraph.scenegraph;
 
 import com.OOGraph.math.Vector;
-import com.OOGraph.primitives.Vertex;
+import com.OOGraph.primitives.vertices.Vertex;
 
 public interface PositionableSceneNode<Tvertex extends Vertex> extends SceneNode<Tvertex> {
     Vector getPosition();
