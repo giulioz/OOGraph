@@ -2,8 +2,9 @@ package com.tests;
 
 import com.OOGraph.assets.ImgLoader;
 import com.OOGraph.assets.ObjLoader;
-import com.OOGraph.io.GraphicsFrame;
-import com.OOGraph.io.SwingGraphicsFrame;
+import com.OOGraph.io.files.IOColorRGB24;
+import com.OOGraph.io.live.GraphicsFrame;
+import com.OOGraph.io.live.SwingGraphicsFrame;
 import com.OOGraph.math.Vector;
 import com.OOGraph.primitives.meshes.Mesh;
 import com.OOGraph.primitives.vertices.TexturedNormalVertex;
@@ -18,6 +19,7 @@ import com.OOGraph.scenegraph.nodes.MeshSceneNode;
 import com.OOGraph.scenegraph.nodes.TexturedQuadNode;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Main {
@@ -85,6 +87,14 @@ public class Main {
         cameraNodeNode.setScale(new Vector(0.7f, 0.7f, 0.7f));
         cameraNodeNode.addChildren(groupNode);
 
+        // Save frame to file
+        try {
+            cameraNodeNode.draw(frame.getFramebuffer().cartesianToSurfaceMatrix());
+            new IOColorRGB24().saveFile(new FileOutputStream("out.jpg"), frame.getFramebuffer());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Rendering cycle
         float t = 0.0f;
         while (frame.isOpen()) {
@@ -102,39 +112,35 @@ public class Main {
 }
 
 class TexturedCubeNode extends GroupNode {
-    TexturedQuadNode front, rear, left, right, top, bottom;
-    RasterMeshRenderer<TexturedNormalVertex, ColorRGB24> renderer;
-
-    public TexturedCubeNode(RasterMeshRenderer<TexturedNormalVertex, ColorRGB24> renderer) {
+    TexturedCubeNode(RasterMeshRenderer<TexturedNormalVertex, ColorRGB24> renderer) {
         super();
-        this.renderer = renderer;
 
-        front = new TexturedQuadNode(renderer);
+        TexturedQuadNode front = new TexturedQuadNode(renderer);
         front.setPosition(new Vector(0, 0, -1));
         front.setRotation(new Vector(0, (float) (Math.PI), 0));
         this.addChildren(front);
 
-        rear = new TexturedQuadNode(renderer);
+        TexturedQuadNode rear = new TexturedQuadNode(renderer);
         rear.setPosition(new Vector(0, 0, 1));
         rear.setRotation(new Vector(0, 0, 0));
         this.addChildren(rear);
 
-        left = new TexturedQuadNode(renderer);
+        TexturedQuadNode left = new TexturedQuadNode(renderer);
         left.setPosition(new Vector(-1, 0, 0));
         left.setRotation(new Vector(0, (float) (Math.PI / 2.0f), 0));
         this.addChildren(left);
 
-        right = new TexturedQuadNode(renderer);
+        TexturedQuadNode right = new TexturedQuadNode(renderer);
         right.setPosition(new Vector(1, 0, 0));
         right.setRotation(new Vector(0, (float) (-Math.PI / 2.0f), 0));
         this.addChildren(right);
 
-        top = new TexturedQuadNode(renderer);
+        TexturedQuadNode top = new TexturedQuadNode(renderer);
         top.setPosition(new Vector(0, 1, 0));
         top.setRotation(new Vector((float) (-Math.PI / 2.0f), 0, 0));
         this.addChildren(top);
 
-        bottom = new TexturedQuadNode(renderer);
+        TexturedQuadNode bottom = new TexturedQuadNode(renderer);
         bottom.setPosition(new Vector(0, -1, 0));
         bottom.setRotation(new Vector((float) (Math.PI / 2.0f), 0, 0));
         this.addChildren(bottom);

@@ -12,8 +12,17 @@ public interface Surface<T> {
 
     T getLinear(int index);
     void setLinear(int index, T value);
+
+    default <Tsource extends Color> void setLinearConvert(int index, Tsource value) {
+        this.setLinear(index, getColorFactory().fromRGBVector(value.getVector()));
+    }
+
     T getXY(int x, int y);
     void setXY(int x, int y, T value);
+
+    default <Tsource extends Color> void setXYConvert(int x, int y, Tsource value) {
+        this.setXY(x, y, getColorFactory().fromRGBVector(value.getVector()));
+    }
 
     int getWidth();
     int getHeight();
@@ -68,14 +77,42 @@ public interface Surface<T> {
         }
     }
 
+    default <Tsource extends Color> void blitConvert(Surface<Tsource> source) {
+        blitConvert(source, new Point(0, 0), new Point(0, 0));
+    }
+
+    default <Tsource extends Color> void blitConvert(Surface<Tsource> source, Point destinationPos) {
+        blitConvert(source, destinationPos, new Point(0, 0));
+    }
+
+    default <Tsource extends Color> void blitConvert(Surface<Tsource> source, Point destinationPos, Point sourcePos) {
+        blitConvert(source, new Rectangle(destinationPos.x, destinationPos.y, getWidth(), getHeight()),
+                new Rectangle(sourcePos.x, sourcePos.y, source.getWidth(),source.getHeight()));
+    }
+
+    default <Tsource extends Color> void blitConvert(Surface<Tsource> source, Rectangle destinationRect) {
+        blitConvert(source, destinationRect, new Rectangle(0, 0, source.getWidth(), source.getHeight()));
+    }
+
+    default <Tsource extends Color> void blitConvert(Surface<Tsource> source, Rectangle destinationRect, Rectangle sourceRect) {
+        for (int yIndexDst = destinationRect.getY(), yIndexSrc = sourceRect.getY();
+             yIndexDst < destinationRect.getHeight() && yIndexSrc < sourceRect.getHeight();
+             yIndexDst++, yIndexSrc++) {
+            for (int xIndexDst = destinationRect.getX(), xIndexSrc = sourceRect.getX();
+                 xIndexDst < destinationRect.getWidth() && xIndexSrc < sourceRect.getWidth();
+                 xIndexDst++, xIndexSrc++) {
+                setXYConvert(xIndexDst, yIndexDst, source.getXY(xIndexSrc, yIndexSrc));
+            }
+        }
+    }
+
     default Vector cartesianToSurface(Vector input) {
         int halfWidth = this.getWidth() / 2;
         int halfHeight = this.getHeight() / 2;
         float aspect = (float)this.getWidth() / this.getHeight();
-        Vector tVec = input
+        return input
                 .multiply(new Vector(halfWidth, -halfHeight * aspect))
                 .sum(new Vector(halfWidth, halfHeight));
-        return tVec;
     }
 
     default Matrix cartesianToSurfaceMatrix() {

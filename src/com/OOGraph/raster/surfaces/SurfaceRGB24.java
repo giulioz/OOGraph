@@ -20,9 +20,9 @@ public class SurfaceRGB24 extends ByteArraySurface<ColorRGB24> {
     @Override
     protected byte[] getByteData(ColorRGB24 value) {
         return new byte[] {
-                (byte)value.getR(),
-                (byte)value.getG(),
-                (byte)value.getB()
+                value.getR(),
+                value.getG(),
+                value.getB()
         };
     }
 

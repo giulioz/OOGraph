@@ -4,10 +4,10 @@ import com.OOGraph.math.MathHelper;
 import com.OOGraph.math.Vector;
 
 public class ColorRGB24 implements Color {
-    private byte r, g, b;
+    protected byte r, g, b;
 
     public ColorRGB24(int r, int g, int b) {
-        this.r = (byte)r;
+        this.r = (byte) r;
         this.g = (byte) g;
         this.b = (byte) b;
     }

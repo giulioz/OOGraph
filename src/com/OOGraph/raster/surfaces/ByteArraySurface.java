@@ -1,7 +1,5 @@
 package com.OOGraph.raster.surfaces;
 
-import com.OOGraph.raster.colors.Color;
-
 public abstract class ByteArraySurface<T> implements Surface<T> {
     protected byte[] data;
     protected int width, height, length;
