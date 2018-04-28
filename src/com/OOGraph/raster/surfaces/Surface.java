@@ -1,9 +1,11 @@
-package com.OOGraph.raster;
+package com.OOGraph.raster.surfaces;
 
 import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Point;
 import com.OOGraph.math.Rectangle;
 import com.OOGraph.math.Vector;
+import com.OOGraph.raster.colors.Color;
+import com.OOGraph.raster.colors.ColorFactory;
 
 public interface Surface<T> {
     byte[] getSurfaceData();
@@ -16,6 +18,8 @@ public interface Surface<T> {
     int getWidth();
     int getHeight();
     int getLength();
+
+    ColorFactory<T> getColorFactory();
 
     default Rectangle getRect() {
         return new Rectangle(0, 0, getWidth() - 1, getHeight() - 1);

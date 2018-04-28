@@ -2,11 +2,7 @@ package com.OOGraph.raster;
 
 import com.OOGraph.math.Point;
 import com.OOGraph.math.Rectangle;
-import com.OOGraph.primitives.meshes.Mesh;
-import com.OOGraph.primitives.vertices.Vertex;
-import com.OOGraph.raster.shaders.PixelShader;
-import com.OOGraph.primitives.vertices.Triangle;
-import com.OOGraph.math.Vector;
+import com.OOGraph.raster.surfaces.Surface;
 
 public class SurfaceDrawer<Tcolor> {
     protected Surface<Tcolor> surface;

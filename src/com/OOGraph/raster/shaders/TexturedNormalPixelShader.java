@@ -3,20 +3,23 @@ package com.OOGraph.raster.shaders;
 import com.OOGraph.math.MathHelper;
 import com.OOGraph.math.Vector;
 import com.OOGraph.primitives.vertices.TexturedNormalVertex;
-import com.OOGraph.raster.Surface;
-import com.OOGraph.raster.colors.ColorRGB24;
+import com.OOGraph.raster.colors.Color;
+import com.OOGraph.raster.colors.ColorFactory;
+import com.OOGraph.raster.surfaces.Surface;
 
-public class TexturedNormalPixelShader implements PixelShader<ColorRGB24, TexturedNormalVertex> {
+public class TexturedNormalPixelShader<T extends Color> implements PixelShader<T, TexturedNormalVertex> {
     private Vector lightDir;
-    private Surface<ColorRGB24> texture;
+    private Surface<T> texture;
+    private ColorFactory<T> colorFactory;
 
-    public TexturedNormalPixelShader(Vector lightDir, Surface<ColorRGB24> texture) {
+    public TexturedNormalPixelShader(Surface<T> surface, Vector lightDir, Surface<T> texture) {
+        this.colorFactory = surface.getColorFactory();
         this.lightDir = lightDir;
         this.texture = texture;
     }
 
     @Override
-    public ColorRGB24 getColor(float x, float y, TexturedNormalVertex va, TexturedNormalVertex vb, TexturedNormalVertex vc, Vector barycentric) {
+    public T getColor(float x, float y, TexturedNormalVertex va, TexturedNormalVertex vb, TexturedNormalVertex vc, Vector barycentric) {
         Vector texCoord = va.getUv().multiply(barycentric.get(0))
                 .sum(vb.getUv().multiply(barycentric.get(1)))
                 .sum(vc.getUv().multiply(barycentric.get(2)))
@@ -25,12 +28,8 @@ public class TexturedNormalPixelShader implements PixelShader<ColorRGB24, Textur
         Vector normal = va.getNormal().multiply(barycentric.get(0))
                 .sum(vb.getNormal().multiply(barycentric.get(1)))
                 .sum(vc.getNormal().multiply(barycentric.get(2))).normalize();
-        ColorRGB24 color = texture.getXY((int)texCoord.get(0), (int)texCoord.get(1));
+        T color = texture.getXY((int)texCoord.get(0), (int)texCoord.get(1));
         float intensity = MathHelper.clamp(normal.dot(lightDir.normalize()), 0.0f, 1.0f);
-        return new ColorRGB24(
-                (byte)(MathHelper.getUnsignedByte(color.getR()) * intensity),
-                (byte)(MathHelper.getUnsignedByte(color.getG()) * intensity),
-                (byte)(MathHelper.getUnsignedByte(color.getB()) * intensity)
-        );
+        return colorFactory.fromRGBVector(color.getVector().multiply(intensity));
     }
 }

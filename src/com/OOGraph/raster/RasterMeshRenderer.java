@@ -3,6 +3,7 @@ package com.OOGraph.raster;
 import com.OOGraph.primitives.meshes.Mesh;
 import com.OOGraph.primitives.vertices.Vertex;
 import com.OOGraph.raster.shaders.PixelShader;
+import com.OOGraph.raster.surfaces.Surface;
 import com.OOGraph.scenegraph.MeshRenderer;
 
 public class RasterMeshRenderer<TVertex extends Vertex, TPixel> implements MeshRenderer<TVertex> {

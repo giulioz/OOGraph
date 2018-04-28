@@ -7,6 +7,7 @@ import com.OOGraph.primitives.meshes.Mesh;
 import com.OOGraph.primitives.vertices.Triangle;
 import com.OOGraph.primitives.vertices.Vertex;
 import com.OOGraph.raster.shaders.PixelShader;
+import com.OOGraph.raster.surfaces.Surface;
 
 public class VertexSurfaceDrawer<Tcolor, Tvertex extends Vertex> extends SurfaceDrawer<Tcolor> {
     private PixelShader<Tcolor, Tvertex> pixelShader;

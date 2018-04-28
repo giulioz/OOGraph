@@ -1,7 +1,7 @@
 package com.OOGraph.io;
 
-import com.OOGraph.raster.Surface;
-import com.OOGraph.raster.SurfaceRGB24;
+import com.OOGraph.raster.surfaces.Surface;
+import com.OOGraph.raster.surfaces.SurfaceRGB24;
 import com.OOGraph.raster.colors.ColorRGB24;
 
 import javax.swing.*;

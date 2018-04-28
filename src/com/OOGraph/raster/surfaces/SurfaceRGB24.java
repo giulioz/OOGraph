@@ -1,5 +1,6 @@
-package com.OOGraph.raster;
+package com.OOGraph.raster.surfaces;
 
+import com.OOGraph.raster.colors.ColorFactory;
 import com.OOGraph.raster.colors.ColorRGB24;
 
 public class SurfaceRGB24 extends ByteArraySurface<ColorRGB24> {
@@ -23,5 +24,14 @@ public class SurfaceRGB24 extends ByteArraySurface<ColorRGB24> {
                 (byte)value.getG(),
                 (byte)value.getB()
         };
+    }
+
+    @Override
+    public ColorFactory<ColorRGB24> getColorFactory() {
+        return vector -> new ColorRGB24(
+                (byte)(vector.get(0) * 255.0f),
+                (byte)(vector.get(1) * 255.0f),
+                (byte)(vector.get(2) * 255.0f)
+        );
     }
 }

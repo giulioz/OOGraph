@@ -11,6 +11,8 @@ import com.OOGraph.primitives.vertices.Vertex;
 import com.OOGraph.raster.*;
 import com.OOGraph.raster.colors.ColorRGB24;
 import com.OOGraph.raster.shaders.TexturedNormalPixelShader;
+import com.OOGraph.raster.surfaces.SurfaceRGB24;
+import com.OOGraph.raster.surfaces.SurfaceZBuffer;
 import com.OOGraph.scenegraph.nodes.GroupNode;
 import com.OOGraph.scenegraph.nodes.MeshSceneNode;
 import com.OOGraph.scenegraph.nodes.TexturedQuadNode;
@@ -42,7 +44,7 @@ public class Main {
         TexturedCubeNode cube = new TexturedCubeNode(
                 new RasterMeshRenderer<>(
                         frame.getFramebuffer(),
-                        new TexturedNormalPixelShader(new Vector(0, 1, 1), texture1),
+                        new TexturedNormalPixelShader<>(frame.getFramebuffer(), new Vector(0, 1, 1), texture1),
                         zBuffer
                 )
         );
@@ -69,7 +71,7 @@ public class Main {
                 sphereMesh,
                 new RasterMeshRenderer<>(
                         frame.getFramebuffer(),
-                        new TexturedNormalPixelShader(new Vector(0, 1, 1), texture2),
+                        new TexturedNormalPixelShader<>(frame.getFramebuffer(), new Vector(0, 1, 1), texture2),
                         zBuffer
                 )
         );
@@ -77,7 +79,7 @@ public class Main {
         groupNode.addChildren(sphere);
 
         // CameraNode root node
-        //CameraNode cameraNodeNode = new CameraNode(new Vector(0,0,1), new Vector(0,0,0), new Vector(0,1,0));
+        // CameraNode cameraNodeNode = new CameraNode(new Vector(0,0,1), new Vector(0,0,0), new Vector(0,1,0));
         GroupNode<Vertex> cameraNodeNode = new GroupNode<>();
         cameraNodeNode.setRotation(new Vector(-0.3f, 0, 0));
         cameraNodeNode.setScale(new Vector(0.7f, 0.7f, 0.7f));

@@ -1,7 +1,7 @@
 package com.OOGraph.assets;
 
 import com.OOGraph.math.MathHelper;
-import com.OOGraph.raster.SurfaceRGB24;
+import com.OOGraph.raster.surfaces.SurfaceRGB24;
 import com.OOGraph.raster.colors.ColorRGB24;
 
 import javax.imageio.ImageIO;

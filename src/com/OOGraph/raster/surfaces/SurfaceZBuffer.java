@@ -1,6 +1,8 @@
-package com.OOGraph.raster;
+package com.OOGraph.raster.surfaces;
 
 import com.OOGraph.math.Point;
+import com.OOGraph.raster.ZBuffer;
+import com.OOGraph.raster.colors.ColorFactory;
 
 public class SurfaceZBuffer implements Surface<Float>, ZBuffer {
     private float[] buffer;
@@ -26,6 +28,11 @@ public class SurfaceZBuffer implements Surface<Float>, ZBuffer {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public ColorFactory<Float> getColorFactory() {
+        return vector -> vector.get(0);
     }
 
     public void clear() {
