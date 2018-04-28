@@ -6,9 +6,13 @@ import com.OOGraph.math.Vector;
 public class ColorARGB32 extends ColorRGB24 {
     protected byte a;
 
-    public ColorARGB32(int r, int g, int b, byte a) {
+    public ColorARGB32(int r, int g, int b, int a) {
         super(r, g, b);
-        this.a = a;
+        this.a = (byte) a;
+    }
+
+    public byte getA() {
+        return a;
     }
 
     @Override

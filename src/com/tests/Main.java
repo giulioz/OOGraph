@@ -1,6 +1,5 @@
 package com.tests;
 
-import com.OOGraph.assets.ImgLoader;
 import com.OOGraph.assets.ObjLoader;
 import com.OOGraph.io.files.IOColorRGB24;
 import com.OOGraph.io.live.GraphicsFrame;
@@ -12,6 +11,7 @@ import com.OOGraph.primitives.vertices.Vertex;
 import com.OOGraph.raster.*;
 import com.OOGraph.raster.colors.ColorRGB24;
 import com.OOGraph.raster.shaders.TexturedNormalPixelShader;
+import com.OOGraph.raster.surfaces.Surface;
 import com.OOGraph.raster.surfaces.SurfaceRGB24;
 import com.OOGraph.raster.surfaces.SurfaceZBuffer;
 import com.OOGraph.scenegraph.nodes.GroupNode;
@@ -33,10 +33,18 @@ public class Main {
         // ZBuffer
         ZBuffer zBuffer = new SurfaceZBuffer(frame.getWidth(), frame.getHeight());
 
-        // Texture 1
-        SurfaceRGB24 texture1 = null;
+        // Background Texture
+        Surface<ColorRGB24> backgroundTexture = null;
         try {
-            texture1 = ImgLoader.getInstance().loadAsset(new FileInputStream("test.jpg"));
+            backgroundTexture = IOColorRGB24.getInstance().loadFile(new FileInputStream("tex.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Texture 1
+        Surface<ColorRGB24> texture1 = null;
+        try {
+            texture1 = IOColorRGB24.getInstance().loadFile((new FileInputStream("test.jpg")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,9 +63,9 @@ public class Main {
         groupNode.addChildren(cube);
 
         // Texture 2
-        SurfaceRGB24 texture2 = null;
+        Surface<ColorRGB24> texture2 = null;
         try {
-            texture2 = ImgLoader.getInstance().loadAsset(new FileInputStream("water.jpg"));
+            texture2 = IOColorRGB24.getInstance().loadFile(new FileInputStream("water.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,16 +89,16 @@ public class Main {
         groupNode.addChildren(sphere);
 
         // CameraNode root node
-        // CameraNode cameraNodeNode = new CameraNode(new Vector(0,0,1), new Vector(0,0,0), new Vector(0,1,0));
-        GroupNode<Vertex> cameraNodeNode = new GroupNode<>();
-        cameraNodeNode.setRotation(new Vector(-0.3f, 0, 0));
-        cameraNodeNode.setScale(new Vector(0.7f, 0.7f, 0.7f));
-        cameraNodeNode.addChildren(groupNode);
+        // CameraNode cameraNode = new CameraNode(new Vector(0,0,1), new Vector(0,0,0), new Vector(0,1,0));
+        GroupNode<Vertex> cameraNode = new GroupNode<>();
+        cameraNode.setRotation(new Vector(-0.3f, 0, 0));
+        cameraNode.setScale(new Vector(0.7f, 0.7f, 0.7f));
+        cameraNode.addChildren(groupNode);
 
         // Save frame to file
         try {
-            cameraNodeNode.draw(frame.getFramebuffer().cartesianToSurfaceMatrix());
-            new IOColorRGB24().saveFile(new FileOutputStream("out.jpg"), frame.getFramebuffer());
+            cameraNode.draw(frame.getFramebuffer().cartesianToSurfaceMatrix());
+            IOColorRGB24.getInstance().saveFile(new FileOutputStream("out.jpg"), frame.getFramebuffer());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,10 +108,11 @@ public class Main {
         while (frame.isOpen()) {
             zBuffer.clear();
             drawer.clear(new ColorRGB24(0, 0, 0));
+            drawer.getSurface().blit(backgroundTexture, drawer.getSurface().getRect());
 
             cube.setRotation(new Vector(0, t * 2.0f, 0));
             groupNode.setRotation(new Vector(0, t, 0));
-            cameraNodeNode.draw(frame.getFramebuffer().cartesianToSurfaceMatrix());
+            cameraNode.draw(frame.getFramebuffer().cartesianToSurfaceMatrix());
 
             frame.swapBuffers();
             t += 0.1f;

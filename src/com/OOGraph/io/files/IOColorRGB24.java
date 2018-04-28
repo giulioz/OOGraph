@@ -15,10 +15,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class IOColorRGB24 implements FileIO<ColorRGB24> {
+    private static IOColorRGB24 _instance = null;
+    public static IOColorRGB24 getInstance() {
+        if (_instance == null) _instance = new IOColorRGB24();
+        return _instance;
+    }
+
+    private IOColorRGB24() { }
+
     @Override
     public void saveFile(OutputStream stream, Surface<ColorRGB24> surface) throws IOException {
         BufferedImage bufferedImage = new BufferedImage(surface.getWidth(), surface.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
         byte[] bytes = surface.getSurfaceData();
+        // RGB to BGR
         for (int i = 0; i < surface.getLength(); i++) {
             byte temp = bytes[i * 3];
             bytes[i * 3] = bytes[i * 3 + 2];
