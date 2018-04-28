@@ -50,7 +50,7 @@ public class Main {
         }
 
         // Cube node
-        GroupNode<Vertex> groupNode = new GroupNode<>();
+        GroupNode groupNode = new GroupNode();
         TexturedCubeNode cube = new TexturedCubeNode(
                 new RasterMeshRenderer<>(
                         frame.getFramebuffer(),
@@ -90,7 +90,7 @@ public class Main {
 
         // CameraNode root node
         // CameraNode cameraNode = new CameraNode(new Vector(0,0,1), new Vector(0,0,0), new Vector(0,1,0));
-        GroupNode<Vertex> cameraNode = new GroupNode<>();
+        GroupNode cameraNode = new GroupNode();
         cameraNode.setRotation(new Vector(-0.3f, 0, 0));
         cameraNode.setScale(new Vector(0.7f, 0.7f, 0.7f));
         cameraNode.addChildren(groupNode);

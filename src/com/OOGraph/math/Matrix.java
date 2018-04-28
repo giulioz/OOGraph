@@ -32,7 +32,11 @@ public class Matrix {
     }
 
     public float get(int r, int c) {
-        return mat[r][c];
+        if (r >= 0 && c >= 0 && r < getRows() && c < getCols()) {
+            return mat[r][c];
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public Matrix multiply(Matrix other)

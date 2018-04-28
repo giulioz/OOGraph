@@ -2,15 +2,13 @@ package com.OOGraph.scenegraph.nodes;
 
 import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Vector;
-import com.OOGraph.primitives.vertices.Vertex;
-import com.OOGraph.scenegraph.MeshRenderer;
 import com.OOGraph.scenegraph.PositionableSceneNode;
 import com.OOGraph.scenegraph.SceneGraphFactory;
 import com.OOGraph.scenegraph.SceneNode;
 
 import java.util.Collection;
 
-public class GroupNode<Tvertex extends Vertex> implements PositionableSceneNode<Tvertex> {
+public class GroupNode implements PositionableSceneNode {
     protected Vector position, rotation, scale;
     protected boolean enabled;
     protected Collection<SceneNode> children;
@@ -29,11 +27,6 @@ public class GroupNode<Tvertex extends Vertex> implements PositionableSceneNode<
         this.scale = new Vector(1, 1, 1);
         this.enabled = true;
         this.children = SceneGraphFactory.getFactory().createSceneNodeCollection();
-    }
-
-    @Override
-    public MeshRenderer<Tvertex> getMeshRenderer() {
-        return null;
     }
 
     @Override

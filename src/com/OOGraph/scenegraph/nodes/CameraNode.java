@@ -2,14 +2,12 @@ package com.OOGraph.scenegraph.nodes;
 
 import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Vector;
-import com.OOGraph.primitives.vertices.Vertex;
-import com.OOGraph.scenegraph.MeshRenderer;
 import com.OOGraph.scenegraph.SceneGraphFactory;
 import com.OOGraph.scenegraph.SceneNode;
 
 import java.util.Collection;
 
-public class CameraNode implements SceneNode<Vertex> {
+public class CameraNode implements SceneNode {
     private Matrix view, projection;
     private Collection<SceneNode> children;
 
@@ -59,10 +57,5 @@ public class CameraNode implements SceneNode<Vertex> {
     @Override
     public Matrix getTransform() {
         return projection.multiply(view);
-    }
-
-    @Override
-    public MeshRenderer<Vertex> getMeshRenderer() {
-        return null;
     }
 }

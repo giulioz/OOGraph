@@ -4,9 +4,10 @@ import com.OOGraph.math.Matrix;
 import com.OOGraph.math.Vector;
 import com.OOGraph.primitives.meshes.Mesh;
 import com.OOGraph.primitives.vertices.Vertex;
+import com.OOGraph.scenegraph.MeshRenderable;
 import com.OOGraph.scenegraph.MeshRenderer;
 
-public class MeshSceneNode<Tvertex extends Vertex> extends GroupNode<Tvertex> {
+public class MeshSceneNode<Tvertex extends Vertex> extends GroupNode implements MeshRenderable<Tvertex> {
     protected Mesh<Tvertex> mesh;
     private MeshRenderer<Tvertex> meshRenderer;
 

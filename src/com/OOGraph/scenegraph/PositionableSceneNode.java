@@ -3,7 +3,7 @@ package com.OOGraph.scenegraph;
 import com.OOGraph.math.Vector;
 import com.OOGraph.primitives.vertices.Vertex;
 
-public interface PositionableSceneNode<Tvertex extends Vertex> extends SceneNode<Tvertex> {
+public interface PositionableSceneNode extends SceneNode {
     Vector getPosition();
     void setPosition(Vector pos);
     Vector getRotation();

@@ -39,18 +39,6 @@ public class SwingGraphicsFrame extends JFrame implements GraphicsFrame<ColorRGB
     @Override
     public void swapBuffers() {
         java.awt.Graphics2D graphics2D = (java.awt.Graphics2D) this.getGraphics();
-        /*byte[] convertedData = frameBuffer.getSurfaceData();
-        IntBuffer intBuf =
-            ByteBuffer.wrap(convertedData)
-                      .order(ByteOrder.BIG_ENDIAN)
-                      .asIntBuffer();
-        int[] array = new int[intBuf.remaining()];
-        intBuf.get(array);
-//        bufferedImage.setRGB(
-//                0, 0,
-//                frameBuffer.getRows(), frameBuffer.getCols(),
-//                array, 0, frameBuffer.getStrideLength());
-        bufferedImage.getRaster().setPixels(0, 0, getRows(), getCols(), array);*/
         byte[] convertedData = frameBuffer.getSurfaceData();
         int j = 0;
         for (int y = 0; y < frameBuffer.getHeight(); y++) {

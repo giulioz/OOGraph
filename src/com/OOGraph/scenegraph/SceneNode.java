@@ -1,11 +1,10 @@
 package com.OOGraph.scenegraph;
 
 import com.OOGraph.math.Matrix;
-import com.OOGraph.primitives.vertices.Vertex;
 
 import java.util.Collection;
 
-public interface SceneNode<Tvertex extends Vertex> {
+public interface SceneNode {
     default void update(float dt) {
         if (getEnabled()) {
             for (SceneNode children : getChildren()) {
@@ -13,8 +12,6 @@ public interface SceneNode<Tvertex extends Vertex> {
             }
         }
     }
-
-    MeshRenderer<Tvertex> getMeshRenderer();
 
     default void draw(Matrix parentTransform) {
         if (getEnabled()) {

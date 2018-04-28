@@ -37,7 +37,6 @@ public abstract class ByteArraySurface<T> implements Surface<T> {
 
     @Override
     public void setLinear(int index, T value) {
-        if (value == null) return;
         int i = index * bytesPerSample;
         byte[] byteData = getByteData(value);
         System.arraycopy(byteData, 0, data, i, byteData.length);
